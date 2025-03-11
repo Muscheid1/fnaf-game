@@ -6,7 +6,7 @@ public class LaptopFlip : MonoBehaviour
 {
     private Vector3 rotationAxis = Vector3.right;
     private Vector3 hingePoint;
-    private float rotationSpeed = 180f;
+    private float rotationSpeed = 220f;
 
     private bool opening = false;
     private bool closing = false;
@@ -54,7 +54,7 @@ public class LaptopFlip : MonoBehaviour
         }
         if (closing)
         {
-            if (GetComponent<Transform>().localRotation.x < 0.7f)
+            if (GetComponent<Transform>().localRotation.x < 0.705f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, -rotationSpeed * Time.deltaTime);
             }
