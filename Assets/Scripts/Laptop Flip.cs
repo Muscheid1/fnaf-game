@@ -8,9 +8,7 @@ public class LaptopFlip : MonoBehaviour
     private Vector3 hingePoint;
     private float rotationSpeed = 220f;
 
-    private bool opening = false;
-    private bool closing = false;
-    private bool open = true;
+    public bool open = false;   
 
     MultiChannelAudio multiChannelAudio;
     // Start is called before the first frame update
@@ -23,45 +21,32 @@ public class LaptopFlip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (open)
         {
-            if (!opening && !closing)
-            {
-                if (open)
-                {
-                    open = false;
-                    closing = true;
-                }
-                else
-                {
-                    opening = true;
-                    multiChannelAudio.PlaySound2();
-                }
-            }
-        }
-
-        if (opening)
-        {
-            if (GetComponent<Transform>().localRotation.x > 0.0f)
+            if (GetComponent<Transform>().localRotation.x > -0.1f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, rotationSpeed * Time.deltaTime);
             }
             else
             {
-                opening = false;
-                open = true;
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    open = false;
+                }
             }
         }
-        if (closing)
+        else
         {
-            if (GetComponent<Transform>().localRotation.x < 0.705f)
+            if (GetComponent<Transform>().localRotation.x < 0.7040147f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, -rotationSpeed * Time.deltaTime);
             }
             else
             {
-                closing = false;
-                multiChannelAudio.PlaySound1();
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    open = true;
+                }
             }
         }
     }
