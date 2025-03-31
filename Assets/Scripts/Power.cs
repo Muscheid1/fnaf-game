@@ -15,7 +15,7 @@ public class Power : MonoBehaviour
     private float basicLoss = 0.15f;
     private float laptopLoss = 0.15f;
     private float doorLoss = 0.2f;
-    private float totalLoss = GameDifficulty.totalPowerLoss;
+    private float totalLoss = 0.8f;
 
     private TextMeshPro textDisplay;
 

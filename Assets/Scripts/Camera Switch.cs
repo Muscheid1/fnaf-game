@@ -64,14 +64,12 @@ public class CameraSwitch : MonoBehaviour
 
             if (prevBunnyIndex != bunnyState.bunnyIndex && (index == prevBunnyIndex || index == bunnyState.bunnyIndex) && !colorBar) //If bunny left or entered camera you're watching
             {
-                Debug.Log("bunny");
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
 
             if (prevTeapotIndex != bunnyState.teapotIndex && (index == prevTeapotIndex || index == bunnyState.teapotIndex) && !colorBar) //If bunny left or entered camera you're watching
             {
-                Debug.Log("teapot");
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
@@ -87,7 +85,7 @@ public class CameraSwitch : MonoBehaviour
                 {
                     this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
                 }
-                multiChannelAudio.PlaySound1();
+                multiChannelAudio.PlaySound(0);
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -97,7 +95,7 @@ public class CameraSwitch : MonoBehaviour
                 {
                     this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
                 }
-                multiChannelAudio.PlaySound1();
+                multiChannelAudio.PlaySound(0);
             }
         }
         else //Laptop closed
@@ -132,6 +130,7 @@ public class CameraSwitch : MonoBehaviour
     IEnumerator ColorBarScreen()
     {
         this.GetComponent<Renderer>().material = colorMaterial;
+        multiChannelAudio.PlaySound(1);
         yield return new WaitForSeconds(2f);
         if (!powerState.powerOff)
         {

@@ -9,20 +9,37 @@ public class BunnyMover : MonoBehaviour
 
     float bunnyTimer = 0f;
     public int bunnyIndex = 0;
-    float bunnyMoveCheck = GameDifficulty.bunnyMoveCheck;
-    int bunnyMoveChance = GameDifficulty.bunnyMoveChance;
+    float bunnyMoveCheck;
+    int bunnyMoveChance;
 
     float teapotTimer = 0f;
     public int teapotIndex = 0;
-    float teapotMoveCheck = GameDifficulty.teapotMoveCheck;
-    int teapotMoveChance = GameDifficulty.teapotMoveChance;
+    float teapotMoveCheck;
+    int teapotMoveChance;
 
     private GameObject teapot;
+    private Clock clock;
 
     public List<Room> rooms;
 
+    public bool bunnyOverLeft = false;
+    public bool bunnyOverRight = false;
+    public bool teapotOverLeft = false;
+    public bool teapotOverRight = false;
+
+    public bool gameOver = false;
+
+    MultiChannelAudio bunnyAudio;
+    MultiChannelAudio teapotAudio;
+    private Power powerState;
+
     void Start()
     {
+        powerState = GameObject.Find("power-display").GetComponent<Power>();
+
+        bunnyAudio = GetComponent<MultiChannelAudio>();
+        teapotAudio = GameObject.Find("teapot").GetComponent<MultiChannelAudio>();
+
         cameras = Resources.LoadAll<Material>("Materials");
 
         rooms = new List<Room>();
@@ -36,7 +53,7 @@ public class BunnyMover : MonoBehaviour
         room.bunnyAdjacentRooms.Add(1);
         room.bunnyAdjacentRooms.Add(2);
 
-        room.teapotPosition = new Vector3(9.82f, 0.59f, 58.8f);
+        room.teapotPosition = new Vector3(-4.27f, 0.59f, 79f);
         room.teapotAdjacentRooms.Add(1);
         room.teapotAdjacentRooms.Add(2);
 
@@ -182,13 +199,31 @@ public class BunnyMover : MonoBehaviour
         teapot = GameObject.Find("teapot");
         transform.position = new Vector3(-20.2f, 8.78f, 83.68f);
         teapot.transform.position = new Vector3(-4.27f, 0.59f, 79f);
+
+        clock = GameObject.Find("Time").GetComponent<Clock>();
     }
 
     void Update()
     {
-        //Bunny
-        bunnyTimer += Time.deltaTime;
-        if (bunnyTimer > bunnyMoveCheck)
+        if (!powerState.powerOff)
+        {
+            bunnyMoveCheck = GameDifficulty.bunnyMoveCheck[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
+            bunnyMoveChance = GameDifficulty.bunnyMoveChance[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
+            teapotMoveCheck = GameDifficulty.teapotMoveCheck[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
+            teapotMoveChance = GameDifficulty.teapotMoveChance[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
+        }
+        else
+        {
+            bunnyMoveCheck = 5f;
+            bunnyMoveChance = 80;
+            teapotMoveCheck = 5f;
+            teapotMoveChance = 80;
+        }
+
+
+            //Bunny
+            bunnyTimer += Time.deltaTime;
+        if (bunnyTimer > bunnyMoveCheck && !gameOver)
         {
             int adjacentRoomIndex = rooms[bunnyIndex].bunnyAdjacentRooms[UnityEngine.Random.Range(0, rooms[bunnyIndex].bunnyAdjacentRooms.Count)];
             if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance)
@@ -201,7 +236,7 @@ public class BunnyMover : MonoBehaviour
 
         //Teapot
         teapotTimer += Time.deltaTime;
-        if (teapotTimer > teapotMoveCheck)
+        if (teapotTimer > teapotMoveCheck && !gameOver)
         {
             int adjacentRoomIndex = rooms[teapotIndex].teapotAdjacentRooms[UnityEngine.Random.Range(0, rooms[teapotIndex].teapotAdjacentRooms.Count)];
             if (UnityEngine.Random.Range(0, 100) < teapotMoveChance)
@@ -214,10 +249,69 @@ public class BunnyMover : MonoBehaviour
     }
 
 
-    public IEnumerator GameOver()
+    public IEnumerator GameOverBunny()
     {
-        transform.position = new Vector3(-0.29f, 2.89f, -4.379f);
-        yield return new WaitForSeconds(2f);
+        gameOver = true;
+        yield return new WaitForSeconds(0.5f);
+        bunnyAudio.PlaySound(0);
+        if (bunnyIndex == 5) //Left door
+        {
+            bunnyOverLeft = true;
+            transform.position = new Vector3(-10.89f, 2.33f, 9.02f);
+            float jumpScareTimer = 0.5f;
+            while (jumpScareTimer > 0f)
+            {
+                jumpScareTimer -= Time.deltaTime;
+                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime); //7.15f
+                yield return null;
+            }
+        }
+        else //Right door
+        {
+            bunnyOverRight = true;
+            transform.position = new Vector3(10.89f, 2.33f, 9.02f);
+            float jumpScareTimer = 0.5f;
+            while (jumpScareTimer > 0f)
+            {
+                jumpScareTimer -= Time.deltaTime;
+                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime);
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Title Screen");
+    }
+
+    public IEnumerator GameOverTeapot()
+    {
+        gameOver = true;
+        yield return new WaitForSeconds(0.5f);
+        teapotAudio.PlaySound(0);
+        if (teapotIndex == 12) //Left door
+        {
+            teapotOverLeft = true;
+            teapot.transform.position = new Vector3(6.46f, 3.06f, -19.38f);
+            float jumpScareTimer = 0.5f;
+            while (jumpScareTimer > 0f)
+            {
+                jumpScareTimer -= Time.deltaTime;
+                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime); //7.15f
+                yield return null;
+            }
+        }
+        else //Right door
+        {
+            teapotOverRight = true;
+            teapot.transform.position = new Vector3(-3.86f, 3.06f, -19.38f);
+            float jumpScareTimer = 0.5f;
+            while (jumpScareTimer > 0f)
+            {
+                jumpScareTimer -= Time.deltaTime;
+                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime);
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Title Screen");
     }
 }

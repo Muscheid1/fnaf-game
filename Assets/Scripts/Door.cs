@@ -54,7 +54,7 @@ public class Door : MonoBehaviour
             {
                 if (!gameOver)
                 {
-                    StartCoroutine(bunnyState.GameOver());
+                    StartCoroutine(bunnyState.GameOverBunny());
                     gameOver = true;
                 }
             }
@@ -83,7 +83,7 @@ public class Door : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (door.localRotation.z <= -0.5f || door.localRotation.z >= 0f)
+        if ((door.localRotation.z <= -0.5f || door.localRotation.z >= 0f) && !gameOver)
         {
             open = !open;
         }

@@ -9,7 +9,7 @@ public class Clock : MonoBehaviour
     private TextMeshPro textDisplay;
     private float timer;
     private List<string> times;
-    int index;
+    public int index;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +32,19 @@ public class Clock : MonoBehaviour
         {
             if (index == 5)
             {
+                int night = PlayerPrefs.GetInt("Night");
+                PlayerPrefs.SetInt("Night", night + 1);
+
                 SceneManager.LoadScene("Title Screen");
                 return;
             }
             textDisplay.text = times[index++];
             timer = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Title Screen");
         }
     }
 }

@@ -8,7 +8,9 @@ public class LaptopFlip : MonoBehaviour
     private Vector3 hingePoint;
     private float rotationSpeed = 220f;
 
-    public bool open = false;   
+    public bool open = false;
+
+    private bool closedSound = true;
 
     MultiChannelAudio multiChannelAudio;
     // Start is called before the first frame update
@@ -23,6 +25,7 @@ public class LaptopFlip : MonoBehaviour
     {
         if (open)
         {
+            closedSound = false;
             if (GetComponent<Transform>().localRotation.x > -0.1f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, rotationSpeed * Time.deltaTime);
@@ -37,15 +40,21 @@ public class LaptopFlip : MonoBehaviour
         }
         else
         {
-            if (GetComponent<Transform>().localRotation.x < 0.7040147f)
+            if (GetComponent<Transform>().localRotation.x < 0.6980147f) //0.7040147f
             {
                 transform.RotateAround(hingePoint, rotationAxis, -rotationSpeed * Time.deltaTime);
             }
             else
             {
+                if (!closedSound)
+                {
+                    multiChannelAudio.PlaySound(0);
+                    closedSound = true;
+                }
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     open = true;
+                    multiChannelAudio.PlaySound(1);
                 }
             }
         }

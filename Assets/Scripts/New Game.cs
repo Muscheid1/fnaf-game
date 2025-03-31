@@ -2,31 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
-public class TitleScreen : MonoBehaviour
+public class NewGame : MonoBehaviour
 {
-    private TextMeshPro textDisplay;
     // Start is called before the first frame update
     void Start()
     {
-        textDisplay = GetComponent<TextMeshPro>();
-        if (!PlayerPrefs.HasKey("Night"))
-        {
-            PlayerPrefs.SetInt("Night", 1);
-        }
 
-        textDisplay.text = "Night " + PlayerPrefs.GetInt("Night");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnMouseDown()
     {
+        PlayerPrefs.SetInt("Night", 3); //broken
         SceneManager.LoadScene("Main Scene");
     }
 }
