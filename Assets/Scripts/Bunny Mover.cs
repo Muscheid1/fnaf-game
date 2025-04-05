@@ -22,6 +22,9 @@ public class BunnyMover : MonoBehaviour
 
     public List<Room> rooms;
 
+    public Transform[] bunnyTransforms;
+    public Transform[] teapotTransforms;
+
     public bool bunnyOverLeft = false;
     public bool bunnyOverRight = false;
     public bool teapotOverLeft = false;
@@ -49,11 +52,11 @@ public class BunnyMover : MonoBehaviour
         //Index 0
         room = new Room();
 
-        room.bunnyPosition = new Vector3(-20.2f, 8.78f, 83.68f);
+        room.bunnyTransform = bunnyTransforms[0];
         room.bunnyAdjacentRooms.Add(1);
         room.bunnyAdjacentRooms.Add(2);
 
-        room.teapotPosition = new Vector3(-4.27f, 0.59f, 79f);
+        room.teapotTransform = teapotTransforms[0];
         room.teapotAdjacentRooms.Add(1);
         room.teapotAdjacentRooms.Add(2);
 
@@ -66,11 +69,11 @@ public class BunnyMover : MonoBehaviour
         //Index 1
         room = new Room();
 
-        room.bunnyPosition = new Vector3(-40.3f, 3.9f, 101.6f);
+        room.bunnyTransform = bunnyTransforms[1];
         room.bunnyAdjacentRooms.Add(2);
         room.bunnyAdjacentRooms.Add(3);
 
-        room.teapotPosition = new Vector3(-47.24f, -1.29f, 88.57f);
+        room.teapotTransform = teapotTransforms[1];
         room.teapotAdjacentRooms.Add(2);
         room.teapotAdjacentRooms.Add(7);
 
@@ -83,11 +86,11 @@ public class BunnyMover : MonoBehaviour
         //Index 2
         room = new Room();
 
-        room.bunnyPosition = new Vector3(76.4f, -11.28f, 61.5f);
+        room.bunnyTransform = bunnyTransforms[2];
         room.bunnyAdjacentRooms.Add(1);
         room.bunnyAdjacentRooms.Add(4);
 
-        room.teapotPosition = new Vector3(77.42f, -8.8f, 66.7f);
+        room.teapotTransform = teapotTransforms[2];
         room.teapotAdjacentRooms.Add(1);
         room.teapotAdjacentRooms.Add(8);
 
@@ -100,7 +103,7 @@ public class BunnyMover : MonoBehaviour
         //Index 3
         room = new Room();
 
-        room.bunnyPosition = new Vector3(-55.47f, 31.7f, 33f);
+        room.bunnyTransform = bunnyTransforms[3];
         room.bunnyAdjacentRooms.Add(4);
         room.bunnyAdjacentRooms.Add(5);
 
@@ -112,7 +115,7 @@ public class BunnyMover : MonoBehaviour
 
         //Index 4
         room = new Room();
-        room.bunnyPosition = new Vector3(66.64f, 23.88f, 20.53f);
+        room.bunnyTransform = bunnyTransforms[4];
         room.bunnyAdjacentRooms.Add(3);
         room.bunnyAdjacentRooms.Add(6);
         room.prevCam = 3;
@@ -123,20 +126,20 @@ public class BunnyMover : MonoBehaviour
 
         //Index 5
         room = new Room();
-        room.bunnyPosition = new Vector3(-9.9f, -0.38f, 11.4f);
+        room.bunnyTransform = bunnyTransforms[5];
         room.bunnyAdjacentRooms.Add(0);
         rooms.Add(room);
 
         //Index 6
         room = new Room();
-        room.bunnyPosition = new Vector3(12.9f, 0.3f, 14.32f);
+        room.bunnyTransform = bunnyTransforms[6];
         room.bunnyAdjacentRooms.Add(0);
         rooms.Add(room);
 
         //Index 7
         room = new Room();
 
-        room.teapotPosition = new Vector3(-39.5f, -1.04f, 10.11f);
+        room.teapotTransform = teapotTransforms[7];
         room.teapotAdjacentRooms.Add(9);
 
         room.prevCam = 4;
@@ -148,7 +151,7 @@ public class BunnyMover : MonoBehaviour
         //Index 8
         room = new Room();
 
-        room.teapotPosition = new Vector3(74.8f, -1.04f, -12.4f);
+        room.teapotTransform = teapotTransforms[8];
         room.teapotAdjacentRooms.Add(10);
 
         room.prevCam = 7;
@@ -160,7 +163,7 @@ public class BunnyMover : MonoBehaviour
         //Index 9
         room = new Room();
 
-        room.teapotPosition = new Vector3(-33.2f, -23.4f, -25.5f);
+        room.teapotTransform = teapotTransforms[9];
         room.teapotAdjacentRooms.Add(11);
 
         room.prevCam = 8;
@@ -172,7 +175,7 @@ public class BunnyMover : MonoBehaviour
         //Index 10
         room = new Room();
 
-        room.teapotPosition = new Vector3(24f, -23.4f, -25.5f);
+        room.teapotTransform = teapotTransforms[10];
         room.teapotAdjacentRooms.Add(12);
 
         room.prevCam = 9;
@@ -183,13 +186,13 @@ public class BunnyMover : MonoBehaviour
 
         //Index 11
         room = new Room();
-        room.teapotPosition = new Vector3(-20.1f, -23.4f, 13.4f);
+        room.teapotTransform = teapotTransforms[11];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
 
         //Index 12
         room = new Room();
-        room.teapotPosition = new Vector3(31f, -23.4f, 13.4f);
+        room.teapotTransform = teapotTransforms[12];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
     }
@@ -197,8 +200,10 @@ public class BunnyMover : MonoBehaviour
     private void Awake()
     {
         teapot = GameObject.Find("teapot");
-        transform.position = new Vector3(-20.2f, 8.78f, 83.68f);
-        teapot.transform.position = new Vector3(-4.27f, 0.59f, 79f);
+        transform.position = bunnyTransforms[0].position;
+        transform.rotation = bunnyTransforms[0].rotation;
+        teapot.transform.position = teapotTransforms[0].position;
+        teapot.transform.rotation = teapotTransforms[0].rotation;
 
         clock = GameObject.Find("Time").GetComponent<Clock>();
     }
@@ -221,14 +226,15 @@ public class BunnyMover : MonoBehaviour
         }
 
 
-            //Bunny
-            bunnyTimer += Time.deltaTime;
+        //Bunny
+        bunnyTimer += Time.deltaTime;
         if (bunnyTimer > bunnyMoveCheck && !gameOver)
         {
             int adjacentRoomIndex = rooms[bunnyIndex].bunnyAdjacentRooms[UnityEngine.Random.Range(0, rooms[bunnyIndex].bunnyAdjacentRooms.Count)];
             if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance)
             {
-                transform.position = rooms[adjacentRoomIndex].bunnyPosition;
+                transform.position = rooms[adjacentRoomIndex].bunnyTransform.position;
+                transform.rotation = rooms[adjacentRoomIndex].bunnyTransform.rotation;
                 bunnyIndex = adjacentRoomIndex;
             }
             bunnyTimer = 0f;
@@ -241,7 +247,8 @@ public class BunnyMover : MonoBehaviour
             int adjacentRoomIndex = rooms[teapotIndex].teapotAdjacentRooms[UnityEngine.Random.Range(0, rooms[teapotIndex].teapotAdjacentRooms.Count)];
             if (UnityEngine.Random.Range(0, 100) < teapotMoveChance)
             {
-                teapot.transform.position = rooms[adjacentRoomIndex].teapotPosition;
+                teapot.transform.position = rooms[adjacentRoomIndex].teapotTransform.position;
+                teapot.transform.rotation = rooms[adjacentRoomIndex].teapotTransform.rotation;
                 teapotIndex = adjacentRoomIndex;
             }
             teapotTimer = 0f;
@@ -257,7 +264,7 @@ public class BunnyMover : MonoBehaviour
         if (bunnyIndex == 5) //Left door
         {
             bunnyOverLeft = true;
-            transform.position = new Vector3(-10.89f, 2.33f, 9.02f);
+            //transform.position = new Vector3(-10.89f, 2.33f, 9.02f);
             float jumpScareTimer = 0.5f;
             while (jumpScareTimer > 0f)
             {
@@ -269,7 +276,7 @@ public class BunnyMover : MonoBehaviour
         else //Right door
         {
             bunnyOverRight = true;
-            transform.position = new Vector3(10.89f, 2.33f, 9.02f);
+            //transform.position = new Vector3(10.89f, 2.33f, 9.02f);
             float jumpScareTimer = 0.5f;
             while (jumpScareTimer > 0f)
             {
@@ -290,7 +297,7 @@ public class BunnyMover : MonoBehaviour
         if (teapotIndex == 12) //Left door
         {
             teapotOverLeft = true;
-            teapot.transform.position = new Vector3(6.46f, 3.06f, -19.38f);
+            //teapot.transform.position = new Vector3(6.46f, 3.06f, -19.38f);
             float jumpScareTimer = 0.5f;
             while (jumpScareTimer > 0f)
             {
@@ -302,7 +309,7 @@ public class BunnyMover : MonoBehaviour
         else //Right door
         {
             teapotOverRight = true;
-            teapot.transform.position = new Vector3(-3.86f, 3.06f, -19.38f);
+            //teapot.transform.position = new Vector3(-3.86f, 3.06f, -19.38f);
             float jumpScareTimer = 0.5f;
             while (jumpScareTimer > 0f)
             {
@@ -318,9 +325,9 @@ public class BunnyMover : MonoBehaviour
 
 public class Room
 {
-    public Vector3 bunnyPosition;
+    public Transform bunnyTransform;
     public List<int> bunnyAdjacentRooms;
-    public Vector3 teapotPosition;
+    public Transform teapotTransform;
     public List<int> teapotAdjacentRooms;
     public int nextCam;
     public int prevCam;
