@@ -36,6 +36,11 @@ public class BunnyMover : MonoBehaviour
     MultiChannelAudio teapotAudio;
     private Power powerState;
 
+    private GameObject bunnyDoorNoise;
+    private bool bunnyAtDoor = false;
+    private GameObject teapotDoorNoise;
+    private bool teapotAtDoor = false;
+
     void Start()
     {
         powerState = GameObject.Find("power-display").GetComponent<Power>();
@@ -139,7 +144,7 @@ public class BunnyMover : MonoBehaviour
         //Index 7
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[7];
+        room.teapotTransform = teapotTransforms[5];
         room.teapotAdjacentRooms.Add(9);
 
         room.prevCam = 4;
@@ -151,7 +156,7 @@ public class BunnyMover : MonoBehaviour
         //Index 8
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[8];
+        room.teapotTransform = teapotTransforms[6];
         room.teapotAdjacentRooms.Add(10);
 
         room.prevCam = 7;
@@ -163,7 +168,7 @@ public class BunnyMover : MonoBehaviour
         //Index 9
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[9];
+        room.teapotTransform = teapotTransforms[7];
         room.teapotAdjacentRooms.Add(11);
 
         room.prevCam = 8;
@@ -175,7 +180,7 @@ public class BunnyMover : MonoBehaviour
         //Index 10
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[10];
+        room.teapotTransform = teapotTransforms[8];
         room.teapotAdjacentRooms.Add(12);
 
         room.prevCam = 9;
@@ -186,13 +191,13 @@ public class BunnyMover : MonoBehaviour
 
         //Index 11
         room = new Room();
-        room.teapotTransform = teapotTransforms[11];
+        room.teapotTransform = teapotTransforms[9];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
 
         //Index 12
         room = new Room();
-        room.teapotTransform = teapotTransforms[12];
+        room.teapotTransform = teapotTransforms[10];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
     }
@@ -239,6 +244,16 @@ public class BunnyMover : MonoBehaviour
             }
             bunnyTimer = 0f;
         }
+        if ((bunnyIndex == 5 || bunnyIndex == 6) && !bunnyAtDoor) //Sound of bunny at door
+        {
+            bunnyDoorNoise = bunnyAudio.PlaySound(1);
+            bunnyAtDoor = true;
+        }
+        if (bunnyIndex != 5 && bunnyIndex != 6 && bunnyAtDoor) //Bunny leaves doors
+        {
+            Destroy(bunnyDoorNoise);
+            bunnyAtDoor = false;
+        }
 
         //Teapot
         teapotTimer += Time.deltaTime;
@@ -253,7 +268,18 @@ public class BunnyMover : MonoBehaviour
             }
             teapotTimer = 0f;
         }
+        if ((teapotIndex == 11 || teapotIndex == 12) && !teapotAtDoor) //Sound of teapot at door
+        {
+            teapotDoorNoise = teapotAudio.PlaySound(1);
+            teapotAtDoor = true;
+        }
+        if (teapotIndex != 11 && teapotIndex != 12 && teapotAtDoor) //Teapot leaves doors
+        {
+            Destroy(teapotDoorNoise);
+            teapotAtDoor = false;
+        }
     }
+
 
 
     public IEnumerator GameOverBunny()
@@ -264,24 +290,25 @@ public class BunnyMover : MonoBehaviour
         if (bunnyIndex == 5) //Left door
         {
             bunnyOverLeft = true;
-            //transform.position = new Vector3(-10.89f, 2.33f, 9.02f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < 0.5f)
             {
-                jumpScareTimer -= Time.deltaTime;
-                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime); //7.15f
+                float t = jumpScareTimer / 0.5f;
+                jumpScareTimer += Time.deltaTime;
+                transform.position = Vector3.Lerp(bunnyTransforms[5].position, bunnyTransforms[7].position, t);
                 yield return null;
             }
         }
         else //Right door
         {
             bunnyOverRight = true;
-            //transform.position = new Vector3(10.89f, 2.33f, 9.02f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < 0.5f)
             {
-                jumpScareTimer -= Time.deltaTime;
-                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime);
+                float t = jumpScareTimer / 0.5f;
+                jumpScareTimer += Time.deltaTime;
+                transform.position = Vector3.Lerp(bunnyTransforms[6].position, bunnyTransforms[8].position, t);
                 yield return null;
             }
         }
@@ -297,24 +324,24 @@ public class BunnyMover : MonoBehaviour
         if (teapotIndex == 12) //Left door
         {
             teapotOverLeft = true;
-            //teapot.transform.position = new Vector3(6.46f, 3.06f, -19.38f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < 0.5f)
             {
-                jumpScareTimer -= Time.deltaTime;
-                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime); //7.15f
+                float t = jumpScareTimer / 0.5f;
+                jumpScareTimer += Time.deltaTime;
+                teapot.transform.position = Vector3.Lerp(teapotTransforms[10].position, teapotTransforms[12].position, t);
                 yield return null;
             }
         }
         else //Right door
         {
             teapotOverRight = true;
-            //teapot.transform.position = new Vector3(-3.86f, 3.06f, -19.38f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < 0.5f)
             {
-                jumpScareTimer -= Time.deltaTime;
-                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime);
+                float t = jumpScareTimer / 0.5f;
+                jumpScareTimer += Time.deltaTime;
+                teapot.transform.position = Vector3.Lerp(teapotTransforms[9].position, teapotTransforms[11].position, t);
                 yield return null;
             }
         }

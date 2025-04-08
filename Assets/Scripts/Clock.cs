@@ -28,7 +28,7 @@ public class Clock : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 60f)
+        if (timer >= 70f)
         {
             if (index == 5)
             {

@@ -24,6 +24,7 @@ public class CameraSwitch : MonoBehaviour
     private int prevTeapotIndex;
     private Coroutine colorBarCoroutine;
     private bool colorBar = false;
+    private GameObject colorBarSound;
 
     private GameObject cameraNumber;
     // Start is called before the first frame update
@@ -109,6 +110,7 @@ public class CameraSwitch : MonoBehaviour
             if (colorBarCoroutine != null)
             {
                 StopCoroutine(colorBarCoroutine);
+                Destroy(colorBarSound);
                 colorBar = false;
             }
         }
@@ -130,7 +132,7 @@ public class CameraSwitch : MonoBehaviour
     IEnumerator ColorBarScreen()
     {
         this.GetComponent<Renderer>().material = colorMaterial;
-        multiChannelAudio.PlaySound(1);
+        colorBarSound = multiChannelAudio.PlaySound(1);
         yield return new WaitForSeconds(2f);
         if (!powerState.powerOff)
         {

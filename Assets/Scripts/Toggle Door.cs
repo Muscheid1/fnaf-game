@@ -27,6 +27,8 @@ public class TogglerDoor : MonoBehaviour
     private float switchEnd = 0f;
     private int rotationDirection = -1;
 
+    MultiChannelAudio multiChannelAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +45,8 @@ public class TogglerDoor : MonoBehaviour
 
         powerState = GameObject.Find("power-display").GetComponent<Power>();
         bunnyState = GameObject.Find("bunny").GetComponent<BunnyMover>();
+
+        multiChannelAudio = GetComponent<MultiChannelAudio>();
     }
 
     // Update is called once per frame
@@ -102,6 +106,7 @@ public class TogglerDoor : MonoBehaviour
         if (door1.localRotation.z <= -0.5f || door1.localRotation.z >= 0f)
         {
             open = !open;
+            multiChannelAudio.PlaySound(0);
         }
     }
 
