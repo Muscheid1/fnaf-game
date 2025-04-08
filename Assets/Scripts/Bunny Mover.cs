@@ -43,6 +43,8 @@ public class BunnyMover : MonoBehaviour
 
     private Fade fade;
 
+    MultiChannelAudio headAudio;
+
     void Start()
     {
         fade = GameObject.Find("DeathImage").GetComponent<Fade>();
@@ -51,6 +53,7 @@ public class BunnyMover : MonoBehaviour
 
         bunnyAudio = GetComponent<MultiChannelAudio>();
         teapotAudio = GameObject.Find("teapot").GetComponent<MultiChannelAudio>();
+        headAudio =  GameObject.Find("HeadAudio").GetComponent<MultiChannelAudio>();
 
         cameras = Resources.LoadAll<Material>("Materials");
 
@@ -323,7 +326,7 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
-        //play audio near desk
+        headAudio.PlaySound(0);
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Title Screen");
     }
@@ -359,7 +362,7 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
-        //play audio near desk
+        headAudio.PlaySound(0);
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Title Screen");
     }

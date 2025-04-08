@@ -114,6 +114,17 @@ public class CameraSwitch : MonoBehaviour
                 colorBar = false;
             }
         }
+
+        if (bunnyState.gameOver)
+        {
+            if (colorBarCoroutine != null)
+            {
+                StopCoroutine(colorBarCoroutine);
+                Destroy(colorBarSound);
+                this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+                colorBar = false;
+            }
+        }
     }
 
     IEnumerator BlueScreen()
