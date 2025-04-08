@@ -41,8 +41,12 @@ public class BunnyMover : MonoBehaviour
     private GameObject teapotDoorNoise;
     private bool teapotAtDoor = false;
 
+    private Fade fade;
+
     void Start()
     {
+        fade = GameObject.Find("DeathImage").GetComponent<Fade>();
+
         powerState = GameObject.Find("power-display").GetComponent<Power>();
 
         bunnyAudio = GetComponent<MultiChannelAudio>();
@@ -215,6 +219,11 @@ public class BunnyMover : MonoBehaviour
 
     void Update()
     {
+        if (clock.victory) //No deaths after win
+        {
+            return;
+        }
+
         if (!powerState.powerOff)
         {
             bunnyMoveCheck = GameDifficulty.bunnyMoveCheck[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
@@ -313,6 +322,9 @@ public class BunnyMover : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(1f);
+        fade.FadeToBlack();
+        //play audio near desk
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Title Screen");
     }
 
@@ -346,6 +358,9 @@ public class BunnyMover : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(1f);
+        fade.FadeToBlack();
+        //play audio near desk
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Title Screen");
     }
 }

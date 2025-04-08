@@ -11,6 +11,11 @@ public class Clock : MonoBehaviour
     private List<string> times;
     public int index;
 
+    private Fade fade;
+    public bool victory = false;
+
+    private BunnyMover bunny;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +27,9 @@ public class Clock : MonoBehaviour
         times.Add("04:00");
         times.Add("05:00");
         index = 0;
+
+        fade = GameObject.Find("VictoryImage").GetComponent<Fade>();
+        bunny = GameObject.Find("bunny").GetComponent<BunnyMover>();
     }
 
     // Update is called once per frame
@@ -30,21 +38,33 @@ public class Clock : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= 70f)
         {
-            if (index == 5)
+            if (index == 5 && !bunny.gameOver)
             {
-                int night = PlayerPrefs.GetInt("Night");
-                PlayerPrefs.SetInt("Night", night + 1);
-
-                SceneManager.LoadScene("Title Screen");
-                return;
+                victory = true;
+                StartCoroutine(Victory());
             }
-            textDisplay.text = times[index++];
-            timer = 0f;
+            else
+            {
+                textDisplay.text = times[index++];
+                timer = 0f;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Title Screen");
         }
+    }
+
+    private IEnumerator Victory()
+    {
+        int night = PlayerPrefs.GetInt("Night");
+        if (night < 5)
+        {
+            PlayerPrefs.SetInt("Night", night + 1);
+        }
+        fade.FadeToBlack();
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("Title Screen");
     }
 }

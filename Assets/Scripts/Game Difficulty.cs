@@ -57,10 +57,10 @@ public static class GameDifficulty
 
         //Night 3
         //12AM
-        bunnyMoveCheck.Add(14f); //17f
-        bunnyMoveChance.Add(30); //20
-        teapotMoveCheck.Add(13f); //18f
-        teapotMoveChance.Add(30); // 20
+        bunnyMoveCheck.Add(14f);
+        bunnyMoveChance.Add(30);
+        teapotMoveCheck.Add(13f);
+        teapotMoveChance.Add(30);
 
         //2AM
         bunnyMoveCheck.Add(14f);
@@ -97,10 +97,10 @@ public static class GameDifficulty
 
         //Night 5
         //12AM
-        bunnyMoveCheck.Add(10f); //12f
-        bunnyMoveChance.Add(50); //40
-        teapotMoveCheck.Add(9f); //11f
-        teapotMoveChance.Add(50); //40
+        bunnyMoveCheck.Add(10f);
+        bunnyMoveChance.Add(50);
+        teapotMoveCheck.Add(9f);
+        teapotMoveChance.Add(50);
 
         //2AM
         bunnyMoveCheck.Add(10f);
