@@ -43,6 +43,10 @@ public class BunnyMover : MonoBehaviour
 
     private Fade fade;
 
+    public GameObject leftDoorState;
+    public GameObject rightDoorState;
+    public GameObject toggleDoorState;
+
     MultiChannelAudio headAudio;
 
     void Start()
@@ -262,7 +266,10 @@ public class BunnyMover : MonoBehaviour
         }
         if ((bunnyIndex == 5 || bunnyIndex == 6) && !bunnyAtDoor) //Sound of bunny at door
         {
-            bunnyDoorNoise = bunnyAudio.PlaySound(1);
+            if (!(leftDoorState.GetComponent<Door>().open && bunnyIndex == 5) && !(rightDoorState.GetComponent<Door>().open && bunnyIndex == 6))
+            {
+                bunnyDoorNoise = bunnyAudio.PlaySound(1);
+            }
             bunnyAtDoor = true;
         }
         if (bunnyIndex != 5 && bunnyIndex != 6 && bunnyAtDoor) //Bunny leaves doors
@@ -290,7 +297,10 @@ public class BunnyMover : MonoBehaviour
         }
         if ((teapotIndex == 11 || teapotIndex == 12) && !teapotAtDoor) //Sound of teapot at door
         {
-            teapotDoorNoise = teapotAudio.PlaySound(1);
+            if (!(toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 12) && !(!toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 11))
+            {
+                teapotDoorNoise = teapotAudio.PlaySound(1);
+            }
             teapotAtDoor = true;
         }
         if (teapotIndex != 11 && teapotIndex != 12 && teapotAtDoor) //Teapot leaves doors

@@ -9830,6 +9830,9 @@ MonoBehaviour:
   teapotOverLeft: 0
   teapotOverRight: 0
   gameOver: 0
+  leftDoorState: {fileID: 2047929493}
+  rightDoorState: {fileID: 761909744}
+  toggleDoorState: {fileID: 856496745}
 --- !u!114 &1653461379
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -88,7 +88,7 @@ public class Door : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if ((door.localRotation.z <= -0.5f || door.localRotation.z >= 0f) && !gameOver)
+        if ((door.localRotation.z <= -0.5f || door.localRotation.z >= 0f) && !gameOver && !powerState.powerOff)
         {
             open = !open;
             multiChannelAudio.PlaySound(0);

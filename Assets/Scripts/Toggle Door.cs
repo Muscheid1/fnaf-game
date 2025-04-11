@@ -103,7 +103,7 @@ public class TogglerDoor : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (door1.localRotation.z <= -0.5f || door1.localRotation.z >= 0f)
+        if ((door1.localRotation.z <= -0.5f || door1.localRotation.z >= 0f) && !gameOver)
         {
             open = !open;
             multiChannelAudio.PlaySound(0);
