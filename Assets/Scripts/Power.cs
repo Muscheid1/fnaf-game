@@ -15,9 +15,19 @@ public class Power : MonoBehaviour
     private float basicLoss = 0.12f;
     private float laptopLoss = 0.2f;
     private float doorLoss = 0.25f;
-    private float totalLoss = 0.8f;
+    private float totalLoss = 0.8f; //0.8f
 
     private TextMeshPro textDisplay;
+
+    GameObject lights;
+    GameObject deskLamp;
+    public GameObject backupLights;
+    GameObject powerTextGroup;
+    GameObject litComponents;
+    GameObject lampWhite;
+    public Material lampOff;
+
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +37,13 @@ public class Power : MonoBehaviour
         doorState1 = GameObject.Find("switch-1").GetComponent<Door>();
         doorState2 = GameObject.Find("switch-2").GetComponent<Door>();
         textDisplay = GetComponent<TextMeshPro>();
+        lights = GameObject.Find("Lights");
+        deskLamp = GameObject.Find("Desk Lamp");
+        powerTextGroup = GameObject.Find("powertextgroup");
+        litComponents = GameObject.Find("Lit Components");
+        lampWhite = GameObject.Find("lamp-white");
+
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
@@ -37,9 +54,16 @@ public class Power : MonoBehaviour
         {
             textDisplay.text = ((int)Math.Floor(power)).ToString();
         }
-        else
+        else if (powerOff == false)
         {
             powerOff = true;
+            lights.SetActive(false);
+            deskLamp.SetActive(false);
+            backupLights.SetActive(true);
+            powerTextGroup.SetActive(false);
+            litComponents.SetActive(false);
+            lampWhite.GetComponent<Renderer>().material = lampOff;
+            audioManager.FadeVolume(0f, 2f, "Ambience");
         }
 
     }

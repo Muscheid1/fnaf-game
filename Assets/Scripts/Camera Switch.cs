@@ -49,6 +49,7 @@ public class CameraSwitch : MonoBehaviour
             if (!turnedOff)
             {
                 turnedOff = true;
+                cameraNumber.SetActive(false);
                 this.GetComponent<Renderer>().material = blackMaterial;
             }
             return;

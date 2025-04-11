@@ -81,7 +81,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 52b70160798b4d844aef525730948a03
+    name: Ambience
   m_AudioMixerGroupViews:
   - guids:
     - 4054ff208eb5339469011df7207afb55
@@ -138,3 +140,17 @@ AudioMixerSnapshotController:
     52b70160798b4d844aef525730948a03: -19.255655
     5f740eb801a2ccd40be5dbcf684bbe15: 6.2251854
   m_TransitionOverrides: {}
+--- !u!244 &389673857511442207
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 0a9e9ffe0420c420ebfb1008d74e6e97
+  m_EffectName: Send
+  m_MixLevel: 8a90fd69beb9849a78e5d075dea24b54
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
