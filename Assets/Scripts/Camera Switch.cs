@@ -27,9 +27,12 @@ public class CameraSwitch : MonoBehaviour
     private GameObject colorBarSound;
 
     private GameObject cameraNumber;
+
+    private float downTime; 
     // Start is called before the first frame update
     void Start()
     {
+        downTime = 0f;
         multiChannelAudio = GetComponent<MultiChannelAudio>();
         flipState = GameObject.Find("laptop-display").GetComponent<LaptopFlip>();
         powerState = GameObject.Find("power-display").GetComponent<Power>();
@@ -63,17 +66,19 @@ public class CameraSwitch : MonoBehaviour
                 return;
             }
 
-            if (prevBunnyIndex != bunnyState.bunnyIndex && (index == prevBunnyIndex || index == bunnyState.bunnyIndex) && !colorBar) //If bunny left or entered camera you're watching
+            if (prevBunnyIndex != bunnyState.bunnyIndex && (index == prevBunnyIndex || index == bunnyState.bunnyIndex) && !colorBar && downTime < 1f) //If bunny left or entered camera you're watching
             {
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
 
-            if (prevTeapotIndex != bunnyState.teapotIndex && (index == prevTeapotIndex || index == bunnyState.teapotIndex) && !colorBar) //If bunny left or entered camera you're watching
+            if (prevTeapotIndex != bunnyState.teapotIndex && (index == prevTeapotIndex || index == bunnyState.teapotIndex) && !colorBar && downTime < 1f) //If teapot left or entered camera you're watching
             {
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
+
+            downTime = 0f;
 
             prevBunnyIndex = bunnyState.bunnyIndex;
             prevTeapotIndex = bunnyState.teapotIndex;
@@ -101,6 +106,7 @@ public class CameraSwitch : MonoBehaviour
         }
         else //Laptop closed
         {
+            downTime += Time.deltaTime;
             launched = false;
             booted = false;
             if (blueCoroutine != null)

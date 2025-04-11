@@ -253,6 +253,10 @@ public class BunnyMover : MonoBehaviour
                 transform.position = rooms[adjacentRoomIndex].bunnyTransform.position;
                 transform.rotation = rooms[adjacentRoomIndex].bunnyTransform.rotation;
                 bunnyIndex = adjacentRoomIndex;
+                if (bunnyIndex != 5 && bunnyIndex != 6)
+                {
+                    headAudio.PlaySound(1);
+                }
             }
             bunnyTimer = 0f;
         }
@@ -277,6 +281,10 @@ public class BunnyMover : MonoBehaviour
                 teapot.transform.position = rooms[adjacentRoomIndex].teapotTransform.position;
                 teapot.transform.rotation = rooms[adjacentRoomIndex].teapotTransform.rotation;
                 teapotIndex = adjacentRoomIndex;
+                if (teapotIndex != 11 && teapotIndex != 12)
+                {
+                    headAudio.PlaySound(1);
+                }
             }
             teapotTimer = 0f;
         }

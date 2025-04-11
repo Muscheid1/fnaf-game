@@ -38,7 +38,7 @@ public class Clock : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= 70f)
         {
-            if (index == 5 && !bunny.gameOver)
+            if (index == 5 && !bunny.gameOver && !victory)
             {
                 victory = true;
                 StartCoroutine(Victory());

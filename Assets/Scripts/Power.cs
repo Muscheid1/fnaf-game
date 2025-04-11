@@ -12,10 +12,10 @@ public class Power : MonoBehaviour
     private Door doorState2;
     public bool powerOff = false;
 
-    private float basicLoss = 0.15f;
-    private float laptopLoss = 0.15f;
-    private float doorLoss = 0.2f;
-    private float totalLoss = 0.75f;
+    private float basicLoss = 0.12f;
+    private float laptopLoss = 0.2f;
+    private float doorLoss = 0.25f;
+    private float totalLoss = 0.8f;
 
     private TextMeshPro textDisplay;
 
