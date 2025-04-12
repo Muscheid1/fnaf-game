@@ -8,6 +8,7 @@ public class TitleScreen : MonoBehaviour
 {
     private TextMeshPro textDisplay;
     private Fade fade;
+    public AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +31,7 @@ public class TitleScreen : MonoBehaviour
     void OnMouseDown()
     {
         fade.FadeToBlack();
+        audioManager.FadeVolume(0f, 1f, "Music");
         StartCoroutine(SceneLoader());
     }
 

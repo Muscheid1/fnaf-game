@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class NewGame : MonoBehaviour
 {
     private Fade fade;
+    public AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class NewGame : MonoBehaviour
     {
         PlayerPrefs.SetInt("Night", 1);
         fade.FadeToBlack();
+        audioManager.FadeVolume(0f, 1f, "Music");
         StartCoroutine(SceneLoader());
     }
 
