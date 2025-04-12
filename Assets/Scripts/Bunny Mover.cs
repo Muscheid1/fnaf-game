@@ -47,6 +47,8 @@ public class BunnyMover : MonoBehaviour
     public GameObject rightDoorState;
     public GameObject toggleDoorState;
 
+    public AudioManager audioManager;
+
     MultiChannelAudio headAudio;
 
     void Start()
@@ -344,8 +346,9 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
+        audioManager.FadeVolume(0f, 0.1f, "Ambience");
         headAudio.PlaySound(0);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
     }
 
@@ -380,8 +383,9 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
+        audioManager.FadeVolume(0f, 0.1f, "Ambience");
         headAudio.PlaySound(0);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
     }
 }
