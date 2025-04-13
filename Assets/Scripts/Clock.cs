@@ -39,7 +39,7 @@ public class Clock : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 4f) //70f
+        if (timer >= 70f) //70f
         {
             if (index == 5 && !bunny.gameOver && !victory)
             {
