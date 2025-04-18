@@ -10,6 +10,8 @@ public class LaptopFlip : MonoBehaviour
 
     public bool open = false;
 
+    public bool clicked = true;
+
     private bool closedSound = true;
 
     MultiChannelAudio multiChannelAudio;
@@ -23,14 +25,15 @@ public class LaptopFlip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (open)
+        if (open) //Opening
         {
+            clicked = false;
             closedSound = false;
             if (GetComponent<Transform>().localRotation.x > -0.1f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, rotationSpeed * Time.deltaTime);
             }
-            else
+            else //Fully open
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -38,14 +41,15 @@ public class LaptopFlip : MonoBehaviour
                 }
             }
         }
-        else
+        else //Closing
         {
             if (GetComponent<Transform>().localRotation.x < 0.6980147f) //0.7040147f
             {
                 transform.RotateAround(hingePoint, rotationAxis, -rotationSpeed * Time.deltaTime);
             }
-            else
+            else //Fully closed
             {
+                clicked = true;
                 if (!closedSound)
                 {
                     multiChannelAudio.PlaySound(0);

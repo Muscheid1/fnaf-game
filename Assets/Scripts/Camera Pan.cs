@@ -7,10 +7,10 @@ public class CameraPan : MonoBehaviour
 {
     Vector3 mousePos;
 
-    float deadZone = 0.05f;
+    float deadZone = 0.08f;
     int screenWidth;
 
-    private Vector3 rotationSpeed = new Vector3(0f, 250f, 0f);
+    private Vector3 rotationSpeed = new Vector3(0f, 300f, 0f);
     private BunnyMover bunnyState;
 
     private bool gameOver = false;

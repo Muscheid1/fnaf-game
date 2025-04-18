@@ -49,6 +49,8 @@ public class BunnyMover : MonoBehaviour
 
     public AudioManager audioManager;
 
+    private bool powerDifficultySet = false;
+
     MultiChannelAudio headAudio;
 
     void Start()
@@ -242,19 +244,20 @@ public class BunnyMover : MonoBehaviour
         }
         else
         {
-            bunnyMoveCheck = 5f;
-            bunnyMoveChance = 80;
-            teapotMoveCheck = 5f;
-            teapotMoveChance = 80;
+            if (!powerDifficultySet)
+            {
+                powerDifficultySet = true;
+                StartCoroutine(PowerDifficulty());
+            }
         }
 
 
         //Bunny
         bunnyTimer += Time.deltaTime;
-        if (bunnyTimer > bunnyMoveCheck && !gameOver)
+        if ((bunnyTimer > bunnyMoveCheck || (bunnyTimer > 4f && (bunnyIndex == 5 || bunnyIndex == 6))) && !gameOver)
         {
             int adjacentRoomIndex = rooms[bunnyIndex].bunnyAdjacentRooms[UnityEngine.Random.Range(0, rooms[bunnyIndex].bunnyAdjacentRooms.Count)];
-            if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance)
+            if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance || (bunnyIndex == 5 || bunnyIndex == 6))
             {
                 transform.position = rooms[adjacentRoomIndex].bunnyTransform.position;
                 transform.rotation = rooms[adjacentRoomIndex].bunnyTransform.rotation;
@@ -282,10 +285,10 @@ public class BunnyMover : MonoBehaviour
 
         //Teapot
         teapotTimer += Time.deltaTime;
-        if (teapotTimer > teapotMoveCheck && !gameOver)
+        if ((teapotTimer > teapotMoveCheck || (teapotTimer > 4f && (teapotIndex == 11 || teapotIndex == 12))) && !gameOver)
         {
             int adjacentRoomIndex = rooms[teapotIndex].teapotAdjacentRooms[UnityEngine.Random.Range(0, rooms[teapotIndex].teapotAdjacentRooms.Count)];
-            if (UnityEngine.Random.Range(0, 100) < teapotMoveChance)
+            if (UnityEngine.Random.Range(0, 100) < teapotMoveChance || (teapotIndex == 11 || teapotIndex == 12))
             {
                 teapot.transform.position = rooms[adjacentRoomIndex].teapotTransform.position;
                 teapot.transform.rotation = rooms[adjacentRoomIndex].teapotTransform.rotation;
@@ -387,6 +390,15 @@ public class BunnyMover : MonoBehaviour
         headAudio.PlaySound(0);
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
+    }
+
+    private IEnumerator PowerDifficulty()
+    {
+        yield return new WaitForSeconds(5f);
+        bunnyMoveCheck = 5f;
+        bunnyMoveChance = 80;
+        teapotMoveCheck = 5f;
+        teapotMoveChance = 80;
     }
 }
 

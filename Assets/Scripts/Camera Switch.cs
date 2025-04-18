@@ -110,6 +110,21 @@ public class CameraSwitch : MonoBehaviour
             downTime += Time.deltaTime;
             launched = false;
             booted = false;
+        }
+
+        if (bunnyState.gameOver) //No color bar on game over
+        {
+            if (colorBarCoroutine != null)
+            {
+                StopCoroutine(colorBarCoroutine);
+                Destroy(colorBarSound);
+                this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+                colorBar = false;
+            }
+        }
+
+        if (flipState.clicked)
+        {
             if (blueCoroutine != null)
             {
                 StopCoroutine(blueCoroutine);
@@ -118,17 +133,6 @@ public class CameraSwitch : MonoBehaviour
             {
                 StopCoroutine(colorBarCoroutine);
                 Destroy(colorBarSound);
-                colorBar = false;
-            }
-        }
-
-        if (bunnyState.gameOver)
-        {
-            if (colorBarCoroutine != null)
-            {
-                StopCoroutine(colorBarCoroutine);
-                Destroy(colorBarSound);
-                this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
                 colorBar = false;
             }
         }

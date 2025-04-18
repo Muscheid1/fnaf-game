@@ -1671,7 +1671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 485fb62bf13c445c7820adff5123ddfc, type: 3}
+  - clip: {fileID: 8300000, guid: b8bbbe783c369413c96aeced1363e8fb, type: 3}
     volume: 0.5
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -3693,7 +3693,7 @@ MonoBehaviour:
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0.8
     loop: 0
-  - clip: {fileID: 8300000, guid: fb12ca074da45e24fa3eaeed10e6de4a, type: 3}
+  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -5671,7 +5671,7 @@ Transform:
   m_GameObject: {fileID: 964928052}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 14.3, y: 13.49, z: 7.58}
+  m_LocalPosition: {x: 14.3, y: 13.49, z: 7.59}
   m_LocalScale: {x: 1, y: 1, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9835,7 +9835,7 @@ Transform:
   m_GameObject: {fileID: 1624663173}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -12.11, y: 13.55, z: 7.58}
+  m_LocalPosition: {x: -12.11, y: 13.55, z: 7.59}
   m_LocalScale: {x: 1, y: 1, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9987,7 +9987,7 @@ MonoBehaviour:
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0.8
     loop: 0
-  - clip: {fileID: 8300000, guid: fb12ca074da45e24fa3eaeed10e6de4a, type: 3}
+  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -13424,7 +13424,7 @@ Transform:
   m_GameObject: {fileID: 2126964632}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0.6, y: 13.58, z: -12.2}
+  m_LocalPosition: {x: 0.6, y: 13.58, z: -12.201}
   m_LocalScale: {x: 1.55, y: 1, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15632,6 +15632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   open: 0
+  clicked: 1
 --- !u!114 &7504364790184049439
 MonoBehaviour:
   m_ObjectHideFlags: 0
