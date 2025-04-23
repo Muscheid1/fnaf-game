@@ -29,6 +29,7 @@ public class Clock : MonoBehaviour
         times.Add("03:00");
         times.Add("04:00");
         times.Add("05:00");
+        times.Add("06:00");
         index = 0;
 
         fade = GameObject.Find("VictoryImage").GetComponent<Fade>();
