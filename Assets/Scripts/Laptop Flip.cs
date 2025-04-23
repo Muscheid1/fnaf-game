@@ -13,6 +13,8 @@ public class LaptopFlip : MonoBehaviour
     public bool clicked = true;
 
     private bool closedSound = true;
+    private bool openedSound = false;
+    GameObject openedSoundObj;
 
     MultiChannelAudio multiChannelAudio;
     // Start is called before the first frame update
@@ -27,6 +29,12 @@ public class LaptopFlip : MonoBehaviour
     {
         if (open) //Opening
         {
+            if (!openedSound)
+            {
+                openedSoundObj = multiChannelAudio.PlaySound(2);
+                openedSound = true;
+            }
+
             clicked = false;
             closedSound = false;
             if (GetComponent<Transform>().localRotation.x > -0.1f)
@@ -52,8 +60,10 @@ public class LaptopFlip : MonoBehaviour
                 clicked = true;
                 if (!closedSound)
                 {
+                    Destroy(openedSoundObj);
                     multiChannelAudio.PlaySound(0);
                     closedSound = true;
+                    openedSound = false;
                 }
                 if (Input.GetKeyDown(KeyCode.W))
                 {

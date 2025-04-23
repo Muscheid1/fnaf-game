@@ -295,7 +295,7 @@ public class BunnyMover : MonoBehaviour
                 teapotIndex = adjacentRoomIndex;
                 if (teapotIndex != 11 && teapotIndex != 12)
                 {
-                    headAudio.PlaySound(1);
+                    headAudio.PlaySound(2);
                 }
             }
             teapotTimer = 0f;

@@ -22,10 +22,10 @@ public static class GameDifficulty
         teapotMoveCheck.Add(20f); //20f
         teapotMoveChance.Add(0); //0
         //2AM
-        bunnyMoveCheck.Add(18f);
-        bunnyMoveChance.Add(40);
-        teapotMoveCheck.Add(20f);
-        teapotMoveChance.Add(0);
+        bunnyMoveCheck.Add(18f); //18f
+        bunnyMoveChance.Add(40); //40
+        teapotMoveCheck.Add(20f); //20f
+        teapotMoveChance.Add(0); //0
 
         //4AM
         bunnyMoveCheck.Add(18f);

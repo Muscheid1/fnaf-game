@@ -6147,6 +6147,11 @@ MonoBehaviour:
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0
+  - clip: {fileID: 8300000, guid: b6d9b00c9009d4384a736a43826ded61, type: 3}
+    volume: 0.06
+    mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
+    spatialBlend: 0
+    loop: 0
 --- !u!4 &1000230635
 Transform:
   m_ObjectHideFlags: 0
@@ -15656,6 +15661,11 @@ MonoBehaviour:
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: d9edbaa27baef4ba381078807553da3f, type: 3}
+    volume: 0.5
+    mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
+    spatialBlend: 1
+    loop: 1
 --- !u!33 &7521746534701092492
 MeshFilter:
   m_ObjectHideFlags: 0
