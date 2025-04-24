@@ -11,8 +11,8 @@ public class AudioManager : MonoBehaviour
     public void SetVolume(float volume, string channel)
     {
         // Convert from [0,1] linear to decibels [-80, 0]
-        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20;
-        mixer.SetFloat(channel, dB);
+        //float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20;
+        mixer.SetFloat(channel, volume);
     }
 
     public void FadeVolume(float volume, float timer, string channel) {
@@ -20,17 +20,17 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(VolumeFader(volume, timer, channel));
     }
 
-    private IEnumerator VolumeFader(float volume, float timer, string channel)
+    private IEnumerator VolumeFader(float finishDB, float timer, string channel)
     {
         float startDB;
         mixer.GetFloat(channel, out startDB);
-        float finishdB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20;
+        //float finishdB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20;
 
         float fadeTimer = 0f;
 
         while (fadeTimer < timer)
         {
-            mixer.SetFloat(channel, startDB + (finishdB - startDB) * fadeTimer / timer);
+            mixer.SetFloat(channel, startDB + (finishDB - startDB) * fadeTimer / timer);
             fadeTimer += Time.deltaTime;
             yield return null;
         }

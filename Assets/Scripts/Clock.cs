@@ -18,6 +18,7 @@ public class Clock : MonoBehaviour
     private BunnyMover bunny;
 
     public AudioManager audioManager;
+    public MultiChannelAudio headAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,7 @@ public class Clock : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 70f) //70f
+        if (timer >= 3f) //70f
         {
             if (index == 5 && !bunny.gameOver && !victory)
             {
@@ -62,13 +63,15 @@ public class Clock : MonoBehaviour
 
     private IEnumerator Victory()
     {
+        headAudio.PlaySound(3);
         int night = PlayerPrefs.GetInt("Night");
         if (night < 5)
         {
             PlayerPrefs.SetInt("Night", night + 1);
         }
         fade.FadeToBlack();
-        audioManager.FadeVolume(0f, 1f, "Ambience");
+        audioManager.FadeVolume(-80f, 1f, "Ambience");
+        audioManager.FadeVolume(-80f, 1f, "Effects");
         victoryText.SetActive(true);
         yield return new WaitForSeconds(4f);
         SceneManager.LoadScene("Title Screen");

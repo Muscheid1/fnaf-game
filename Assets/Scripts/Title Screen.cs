@@ -1,48 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class TitleScreen : MonoBehaviour
 {
     private TextMeshPro textDisplay;
-    private Fade fade;
+    public GameObject nightText;
+    public bool started = false;
     public AudioManager audioManager;
-    // Start is called before the first frame update
+
     void Start()
     {
-        textDisplay = GetComponent<TextMeshPro>();
+        //Night text
+        textDisplay = nightText.GetComponent<TextMeshPro>();
         if (!PlayerPrefs.HasKey("Night"))
         {
             PlayerPrefs.SetInt("Night", 1);
         }
-
         textDisplay.text = "Night " + PlayerPrefs.GetInt("Night");
-        fade = GameObject.Find("FadeImage").GetComponent<Fade>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void OnMouseDown()
-    {
-        fade.FadeToBlack();
-        audioManager.FadeVolume(0f, 1f, "Music");
-        StartCoroutine(SceneLoader());
-    }
-
-    private IEnumerator SceneLoader()
-    {
-        float timer = 0f;
-        while (timer < 1f)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        SceneManager.LoadScene("Main Scene");
+        //Volume
+        audioManager.SetVolume(-4f, "Music");
+        audioManager.SetVolume(0f, "Effects");
     }
 }

@@ -349,7 +349,8 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
-        audioManager.FadeVolume(0f, 0.1f, "Ambience");
+        audioManager.SetVolume(-80f, "Ambience");
+        audioManager.SetVolume(-80f, "Effects");
         headAudio.PlaySound(0);
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
@@ -386,7 +387,8 @@ public class BunnyMover : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         fade.FadeToBlack();
-        audioManager.FadeVolume(0f, 0.1f, "Ambience");
+        audioManager.SetVolume(-80f, "Ambience");
+        audioManager.SetVolume(-80f, "Effects");
         headAudio.PlaySound(0);
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");

@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NewGame : MonoBehaviour
+public class NightStart : MonoBehaviour
 {
     private Fade fade;
     public AudioManager audioManager;
-    // Start is called before the first frame update
+    public bool newGame;
+    public TitleScreen titleScreen;
+
     void Start()
     {
         fade = GameObject.Find("FadeImage").GetComponent<Fade>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void OnMouseDown()
     {
-        PlayerPrefs.SetInt("Night", 1);
+        if (titleScreen.started)
+        {
+            return;
+        }
+        titleScreen.started = true;
+        if (newGame)
+        {
+            PlayerPrefs.SetInt("Night", 1);
+        }
         fade.FadeToBlack();
-        audioManager.FadeVolume(0f, 1f, "Music");
+        audioManager.FadeVolume(-80f, 1f, "Master");
         StartCoroutine(SceneLoader());
     }
 

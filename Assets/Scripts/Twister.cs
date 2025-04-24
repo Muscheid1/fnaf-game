@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Twister : MonoBehaviour
 {
-    Quaternion left;
-    Quaternion right;
     float timer = 0f;
 
     float startZ;

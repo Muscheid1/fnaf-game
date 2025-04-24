@@ -6139,7 +6139,7 @@ MonoBehaviour:
   sounds:
   - clip: {fileID: 8300000, guid: 33060fe4548af3a40a3424b9f9475e57, type: 3}
     volume: 0.3
-    mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
+    mixerGroup: {fileID: -8174906536942678017, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0
   - clip: {fileID: 8300000, guid: fb89c5e5af4065c4ea02f3ea8f00b624, type: 3}
@@ -6150,6 +6150,11 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: b6d9b00c9009d4384a736a43826ded61, type: 3}
     volume: 0.06
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
+    spatialBlend: 0
+    loop: 0
+  - clip: {fileID: 8300000, guid: 22bc93b484e7e0645824b803ebc743f6, type: 3}
+    volume: 0.1
+    mixerGroup: {fileID: -8174906536942678017, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0
 --- !u!4 &1000230635
@@ -7170,7 +7175,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -4960309803789729833, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
   m_audioClip: {fileID: 8300000, guid: c39c7dd7a35f14f67bff2c6fcd1e044f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.15
   m_Pitch: 0.83
   Loop: 1
   Mute: 0
@@ -8611,7 +8616,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -4960309803789729833, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
   m_audioClip: {fileID: 8300000, guid: c39c7dd7a35f14f67bff2c6fcd1e044f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.827
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -15945,6 +15950,7 @@ MonoBehaviour:
   victoryText: {fileID: 738575058}
   victory: 0
   audioManager: {fileID: 1588494131}
+  headAudio: {fileID: 1000230634}
 --- !u!1 &8164037494437812114
 GameObject:
   m_ObjectHideFlags: 0
