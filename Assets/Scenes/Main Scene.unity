@@ -15643,6 +15643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   open: 0
   clicked: 1
+  power: {fileID: 551621395}
 --- !u!114 &7504364790184049439
 MonoBehaviour:
   m_ObjectHideFlags: 0

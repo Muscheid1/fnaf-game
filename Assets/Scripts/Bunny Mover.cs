@@ -396,10 +396,10 @@ public class BunnyMover : MonoBehaviour
 
     private IEnumerator PowerDifficulty()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(6f);
         bunnyMoveCheck = 5f;
-        bunnyMoveChance = 80;
-        teapotMoveCheck = 5f;
+        bunnyMoveChance = 70;
+        teapotMoveCheck = 4f;
         teapotMoveChance = 80;
     }
 }

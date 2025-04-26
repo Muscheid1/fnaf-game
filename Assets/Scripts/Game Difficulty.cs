@@ -17,8 +17,8 @@ public static class GameDifficulty
         teapotMoveChance = new List<int>();
         //Night 1
         //12AM
-        bunnyMoveCheck.Add(3f); // 18f
-        bunnyMoveChance.Add(100); //20
+        bunnyMoveCheck.Add(18f); // 18f
+        bunnyMoveChance.Add(20); //20
         teapotMoveCheck.Add(20f); //20f
         teapotMoveChance.Add(0); //0
         //2AM
@@ -31,7 +31,7 @@ public static class GameDifficulty
         bunnyMoveCheck.Add(18f);
         bunnyMoveChance.Add(50);
         teapotMoveCheck.Add(20f);
-        teapotMoveChance.Add(0);
+        teapotMoveChance.Add(20);
 
 
         //Night 2
