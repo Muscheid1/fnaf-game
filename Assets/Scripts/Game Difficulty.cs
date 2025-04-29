@@ -36,21 +36,21 @@ public static class GameDifficulty
 
         //Night 2
         //12AM
-        bunnyMoveCheck.Add(16f);
+        bunnyMoveCheck.Add(15f);
         bunnyMoveChance.Add(20);
-        teapotMoveCheck.Add(15f);
+        teapotMoveCheck.Add(14f);
         teapotMoveChance.Add(10);
 
         //2AM
-        bunnyMoveCheck.Add(16f);
+        bunnyMoveCheck.Add(15f);
         bunnyMoveChance.Add(40);
-        teapotMoveCheck.Add(15f);
+        teapotMoveCheck.Add(14f);
         teapotMoveChance.Add(20);
 
         //4AM
-        bunnyMoveCheck.Add(16f);
+        bunnyMoveCheck.Add(15f);
         bunnyMoveChance.Add(50);
-        teapotMoveCheck.Add(15f);
+        teapotMoveCheck.Add(14f);
         teapotMoveChance.Add(35);
 
 
@@ -65,13 +65,13 @@ public static class GameDifficulty
         bunnyMoveCheck.Add(14f);
         bunnyMoveChance.Add(40);
         teapotMoveCheck.Add(13f);
-        teapotMoveChance.Add(40);
+        teapotMoveChance.Add(50);
 
         //4AM
         bunnyMoveCheck.Add(14f);
         bunnyMoveChance.Add(50);
         teapotMoveCheck.Add(13f);
-        teapotMoveChance.Add(50);
+        teapotMoveChance.Add(60);
 
 
         //Night 4
@@ -103,15 +103,15 @@ public static class GameDifficulty
 
         //2AM
         bunnyMoveCheck.Add(10f);
-        bunnyMoveChance.Add(60);
+        bunnyMoveChance.Add(65);
         teapotMoveCheck.Add(9f);
-        teapotMoveChance.Add(60);
+        teapotMoveChance.Add(65);
 
         //4AM
         bunnyMoveCheck.Add(10f);
-        bunnyMoveChance.Add(70);
+        bunnyMoveChance.Add(75);
         teapotMoveCheck.Add(9f);
-        teapotMoveChance.Add(70);
+        teapotMoveChance.Add(75);
 
 
     }

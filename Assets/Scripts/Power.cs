@@ -15,7 +15,7 @@ public class Power : MonoBehaviour
     private float basicLoss = 0.12f;
     private float laptopLoss = 0.2f;
     private float doorLoss = 0.25f;
-    private float totalLoss = 0.9f; //0.8f
+    private float totalLoss = 0.9f; //0.9f
 
     private TextMeshPro textDisplay;
 
