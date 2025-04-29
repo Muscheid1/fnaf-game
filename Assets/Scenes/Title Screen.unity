@@ -4103,7 +4103,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: c01cda76ac59d445a9519807138735ab, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7b2a96b04208c42b4a1186ec0d441215, type: 2}
+      objectReference: {fileID: 2100000, guid: b4f034a275b604a41b6b394ec1fd0585, type: 2}
     - target: {fileID: 919132149155446097, guid: c01cda76ac59d445a9519807138735ab, type: 3}
       propertyPath: m_Name
       value: bunny
