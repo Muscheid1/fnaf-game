@@ -15,7 +15,7 @@ public class Power : MonoBehaviour
     private float basicLoss = 0.12f;
     private float laptopLoss = 0.2f;
     private float doorLoss = 0.25f;
-    private float totalLoss = 0.9f; //0.9f
+    private float totalLoss = 40.9f; //0.9f
 
     private TextMeshPro textDisplay;
 
@@ -23,6 +23,7 @@ public class Power : MonoBehaviour
     GameObject deskLamp;
     public GameObject backupLights;
     GameObject powerTextGroup;
+    GameObject usageTextGroup;
     GameObject litComponents;
     GameObject lampWhite;
     public Material lampOff;
@@ -42,6 +43,7 @@ public class Power : MonoBehaviour
         lights = GameObject.Find("Lights");
         deskLamp = GameObject.Find("Desk Lamp");
         powerTextGroup = GameObject.Find("powertextgroup");
+        usageTextGroup = GameObject.Find("usagetextgroup");
         litComponents = GameObject.Find("Lit Components");
         lampWhite = GameObject.Find("lamp-white");
 
@@ -66,6 +68,7 @@ public class Power : MonoBehaviour
             deskLamp.SetActive(false);
             backupLights.SetActive(true);
             powerTextGroup.SetActive(false);
+            usageTextGroup.SetActive(false);
             litComponents.SetActive(false);
             lampWhite.GetComponent<Renderer>().material = lampOff;
             audioManager.FadeVolume(-80f, 5f, "Ambience");
