@@ -28,6 +28,9 @@ public class CameraSwitch : MonoBehaviour
 
     private GameObject cameraNumber;
 
+    public GameObject[] cameras;
+    private int activeCamera = 0;
+
     private float downTime; 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +93,7 @@ public class CameraSwitch : MonoBehaviour
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
                 if (!colorBar)
                 {
-                    this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+                    SetCameraNext();
                 }
                 multiChannelAudio.PlaySound(0);
             }
@@ -100,7 +103,7 @@ public class CameraSwitch : MonoBehaviour
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
                 if (!colorBar)
                 {
-                    this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+                    SetCameraPrev();
                 }
                 multiChannelAudio.PlaySound(0);
             }
@@ -118,7 +121,7 @@ public class CameraSwitch : MonoBehaviour
             {
                 StopCoroutine(colorBarCoroutine);
                 Destroy(colorBarSound);
-                this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+                SetCamera();
                 colorBar = false;
             }
         }
@@ -145,7 +148,7 @@ public class CameraSwitch : MonoBehaviour
         yield return new WaitForSeconds(3f);
         if (!powerState.powerOff)
         {
-            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+            SetCamera();
             cameraNumber.SetActive(true);
         }
         booted = true;
@@ -158,8 +161,37 @@ public class CameraSwitch : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (!powerState.powerOff)
         {
-            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+            SetCamera();
         }
         colorBar = false;
+    }
+
+    private void SetCamera()
+    {
+        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+    }
+
+    private void SetCameraNext()
+    {
+        cameras[activeCamera].SetActive(false);
+        activeCamera++;
+        if (activeCamera == 9)
+        {
+            activeCamera = 0;
+        }
+        cameras[activeCamera].SetActive(true);
+        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+    }
+
+    private void SetCameraPrev()
+    {
+        cameras[activeCamera].SetActive(false);
+        activeCamera--;
+        if (activeCamera == -1)
+        {
+            activeCamera = 8;
+        }
+        cameras[activeCamera].SetActive(true);
+        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
     }
 }

@@ -23,6 +23,7 @@ public class LaptopFlip : MonoBehaviour
     {
         hingePoint = GameObject.Find("hinge").GetComponent<Transform>().position;
         multiChannelAudio = GetComponent<MultiChannelAudio>();
+        transform.RotateAround(hingePoint, rotationAxis, -88.70456f);
     }
 
     // Update is called once per frame
