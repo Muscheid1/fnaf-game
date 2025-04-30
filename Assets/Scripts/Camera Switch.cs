@@ -91,20 +91,14 @@ public class CameraSwitch : MonoBehaviour
             {
                 index = bunnyState.rooms[index].nextCam;
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
-                if (!colorBar)
-                {
-                    SetCameraNext();
-                }
+                SetCameraNext();
                 multiChannelAudio.PlaySound(0);
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
                 index = bunnyState.rooms[index].prevCam;
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
-                if (!colorBar)
-                {
-                    SetCameraPrev();
-                }
+                SetCameraPrev();
                 multiChannelAudio.PlaySound(0);
             }
         }
@@ -180,7 +174,10 @@ public class CameraSwitch : MonoBehaviour
             activeCamera = 0;
         }
         cameras[activeCamera].SetActive(true);
-        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        if (!colorBar)
+        {
+            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        }
     }
 
     private void SetCameraPrev()
@@ -192,6 +189,9 @@ public class CameraSwitch : MonoBehaviour
             activeCamera = 8;
         }
         cameras[activeCamera].SetActive(true);
-        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        if (!colorBar)
+        {
+            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        }
     }
 }

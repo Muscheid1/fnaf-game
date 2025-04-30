@@ -29,6 +29,8 @@ public class Power : MonoBehaviour
 
     private AudioManager audioManager;
 
+    MultiChannelAudio multiChannelAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,8 @@ public class Power : MonoBehaviour
         lampWhite = GameObject.Find("lamp-white");
 
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
+        multiChannelAudio = GetComponent<MultiChannelAudio>();
     }
 
     // Update is called once per frame
@@ -56,6 +60,7 @@ public class Power : MonoBehaviour
         }
         else if (powerOff == false)
         {
+            multiChannelAudio.PlaySound(0);
             powerOff = true;
             lights.SetActive(false);
             deskLamp.SetActive(false);

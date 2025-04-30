@@ -25,6 +25,7 @@ public class NightStart : MonoBehaviour
         if (newGame)
         {
             PlayerPrefs.SetInt("Night", 1);
+            PlayerPrefs.SetInt("Star", 0);
         }
         fade.FadeToBlack();
         audioManager.FadeVolume(-80f, 1f, "Master");

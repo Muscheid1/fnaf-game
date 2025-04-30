@@ -69,7 +69,11 @@ public class Clock : MonoBehaviour
         {
             PlayerPrefs.SetInt("Night", night + 1);
         }
-        fade.FadeToBlack();
+        else
+        {
+            PlayerPrefs.SetInt("Star", 1);
+        }
+            fade.FadeToBlack();
         audioManager.FadeVolume(-80f, 1f, "Ambience");
         audioManager.FadeVolume(-80f, 1f, "Effects");
         victoryText.SetActive(true);

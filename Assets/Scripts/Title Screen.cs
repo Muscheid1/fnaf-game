@@ -7,6 +7,7 @@ public class TitleScreen : MonoBehaviour
     public GameObject nightText;
     public bool started = false;
     public AudioManager audioManager;
+    public GameObject star;
 
     void Start()
     {
@@ -17,6 +18,16 @@ public class TitleScreen : MonoBehaviour
             PlayerPrefs.SetInt("Night", 1);
         }
         textDisplay.text = "Night " + PlayerPrefs.GetInt("Night");
+
+        //Completion star
+        if (!PlayerPrefs.HasKey("Star"))
+        {
+            PlayerPrefs.SetInt("Star", 0);
+        }
+        if (PlayerPrefs.GetInt("Star") == 1)
+        {
+            star.SetActive(true);
+        }
 
         //Volume
         audioManager.SetVolume(-4f, "Music");
