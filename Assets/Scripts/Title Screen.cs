@@ -30,7 +30,7 @@ public class TitleScreen : MonoBehaviour
         }
 
         //Volume
-        audioManager.SetVolume(-4f, "Music");
+        audioManager.SetVolume(2f, "Music");
         audioManager.SetVolume(0f, "Effects");
     }
 }

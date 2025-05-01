@@ -67,6 +67,8 @@ public class BunnyMover : MonoBehaviour
 
     public GameObject[] powerDeathLights;
 
+    public GameObject[] doorSlams;
+
     void Start()
     {
         fade = GameObject.Find("DeathImage").GetComponent<Fade>();
@@ -287,7 +289,14 @@ public class BunnyMover : MonoBehaviour
         {
             if (!(leftDoorState.GetComponent<Door>().open && bunnyIndex == 5) && !(rightDoorState.GetComponent<Door>().open && bunnyIndex == 6))
             {
-                bunnyDoorNoise = bunnyAudio.PlaySound(1);
+                if (bunnyIndex == 5)
+                {
+                    bunnyDoorNoise = doorSlams[0].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+                else
+                {
+                    bunnyDoorNoise = doorSlams[1].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
             }
             bunnyAtDoor = true;
         }
@@ -318,7 +327,14 @@ public class BunnyMover : MonoBehaviour
         {
             if (!(toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 12) && !(!toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 11))
             {
-                teapotDoorNoise = teapotAudio.PlaySound(1);
+                if (teapotIndex == 12)
+                {
+                    teapotDoorNoise = doorSlams[2].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+                else
+                {
+                    teapotDoorNoise = doorSlams[3].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
             }
             teapotAtDoor = true;
         }
