@@ -53,6 +53,20 @@ public class BunnyMover : MonoBehaviour
 
     MultiChannelAudio headAudio;
 
+    [System.Serializable]
+    public class JumpscareMoment
+    {
+        public Transform transform;
+        public float time;
+    }
+
+    public JumpscareMoment[] jumpscareMomentsBunnyLeft;
+    public JumpscareMoment[] jumpscareMomentsBunnyRight;
+    public JumpscareMoment[] jumpscareMomentsTeapotLeft;
+    public JumpscareMoment[] jumpscareMomentsTeapotRight;
+
+    public GameObject[] powerDeathLights;
+
     void Start()
     {
         fade = GameObject.Find("DeathImage").GetComponent<Fade>();
@@ -320,34 +334,38 @@ public class BunnyMover : MonoBehaviour
     public IEnumerator GameOverBunny()
     {
         gameOver = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         bunnyAudio.PlaySound(0);
         if (bunnyIndex == 5) //Left door
         {
-            bunnyOverLeft = true;
-            float jumpScareTimer = 0f;
-            while (jumpScareTimer < 0.5f)
+            if (powerState.powerOff)
             {
-                float t = jumpScareTimer / 0.5f;
-                jumpScareTimer += Time.deltaTime;
-                transform.position = Vector3.Lerp(bunnyTransforms[5].position, bunnyTransforms[7].position, t);
-                yield return null;
+                powerDeathLights[0].SetActive(true);
             }
+            bunnyOverLeft = true;
         }
         else //Right door
         {
-            bunnyOverRight = true;
-
-            float jumpScareTimer = 0f;
-            while (jumpScareTimer < 0.5f)
+            if (powerState.powerOff)
             {
-                float t = jumpScareTimer / 0.5f;
+                powerDeathLights[1].SetActive(true);
+            }
+            bunnyOverRight = true;
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < jumpscareMomentsBunnyLeft[i + 1].time)
+            {
                 jumpScareTimer += Time.deltaTime;
-                transform.position = Vector3.Lerp(bunnyTransforms[6].position, bunnyTransforms[8].position, t);
+                float t = jumpScareTimer / jumpscareMomentsBunnyLeft[i + 1].time;
+                transform.position = bunnyOverLeft ? Vector3.Lerp(jumpscareMomentsBunnyLeft[i].transform.position, jumpscareMomentsBunnyLeft[i+1].transform.position, t) : Vector3.Lerp(jumpscareMomentsBunnyRight[i].transform.position, jumpscareMomentsBunnyRight[i+1].transform.position, t);
+                transform.rotation = bunnyOverLeft ? Quaternion.Lerp(jumpscareMomentsBunnyLeft[i].transform.rotation, jumpscareMomentsBunnyLeft[i+1].transform.rotation, t) : Quaternion.Lerp(jumpscareMomentsBunnyRight[i].transform.rotation, jumpscareMomentsBunnyRight[i+1].transform.rotation, t);
                 yield return null;
             }
         }
-        yield return new WaitForSeconds(1f);
+
+        yield return new WaitForSeconds(0.3f);
         fade.FadeToBlack();
         audioManager.SetVolume(-80f, "Ambience");
         audioManager.SetVolume(-80f, "Effects");
@@ -359,33 +377,39 @@ public class BunnyMover : MonoBehaviour
     public IEnumerator GameOverTeapot()
     {
         gameOver = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         teapotAudio.PlaySound(0);
         if (teapotIndex == 12) //Left door
         {
-            teapotOverLeft = true;
-            float jumpScareTimer = 0f;
-            while (jumpScareTimer < 0.5f)
+            if (powerState.powerOff)
             {
-                float t = jumpScareTimer / 0.5f;
-                jumpScareTimer += Time.deltaTime;
-                teapot.transform.position = Vector3.Lerp(teapotTransforms[10].position, teapotTransforms[12].position, t);
-                yield return null;
+                powerDeathLights[2].SetActive(true);
             }
+            teapotOverLeft = true;
         }
         else //Right door
         {
-            teapotOverRight = true;
-            float jumpScareTimer = 0f;
-            while (jumpScareTimer < 0.5f)
+            if (powerState.powerOff)
             {
-                float t = jumpScareTimer / 0.5f;
+                powerDeathLights[3].SetActive(true);
+            }
+            teapotOverRight = true;
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < jumpscareMomentsTeapotLeft[i + 1].time)
+            {
                 jumpScareTimer += Time.deltaTime;
-                teapot.transform.position = Vector3.Lerp(teapotTransforms[9].position, teapotTransforms[11].position, t);
+                float t = jumpScareTimer / jumpscareMomentsTeapotLeft[i + 1].time;
+                teapot.transform.position = teapotOverLeft ? Vector3.Lerp(jumpscareMomentsTeapotLeft[i].transform.position, jumpscareMomentsTeapotLeft[i + 1].transform.position, t) : Vector3.Lerp(jumpscareMomentsTeapotRight[i].transform.position, jumpscareMomentsTeapotRight[i + 1].transform.position, t);
+                teapot.transform.rotation = teapotOverLeft ? Quaternion.Lerp(jumpscareMomentsTeapotLeft[i].transform.rotation, jumpscareMomentsTeapotLeft[i + 1].transform.rotation, t) : Quaternion.Lerp(jumpscareMomentsTeapotRight[i].transform.rotation, jumpscareMomentsTeapotRight[i + 1].transform.rotation, t);
                 yield return null;
             }
         }
-        yield return new WaitForSeconds(1f);
+
+
+        yield return new WaitForSeconds(0.3f);
         fade.FadeToBlack();
         audioManager.SetVolume(-80f, "Ambience");
         audioManager.SetVolume(-80f, "Effects");
@@ -393,6 +417,7 @@ public class BunnyMover : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
     }
+
 
     private IEnumerator PowerDifficulty()
     {

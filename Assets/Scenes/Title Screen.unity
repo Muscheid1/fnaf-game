@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - clip: {fileID: 8300000, guid: b8bbbe783c369413c96aeced1363e8fb, type: 3}
-    volume: 0.2
+    volume: 0.3
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0
@@ -2548,7 +2548,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -327081597390026662, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
   m_audioClip: {fileID: 8300000, guid: 536ad4e3ba4cb8c4090db0facec7c1da, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.67
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
