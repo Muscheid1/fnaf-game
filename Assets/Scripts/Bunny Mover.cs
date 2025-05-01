@@ -365,7 +365,7 @@ public class BunnyMover : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.35f);
         fade.FadeToBlack();
         audioManager.SetVolume(-80f, "Ambience");
         audioManager.SetVolume(-80f, "Effects");
@@ -409,7 +409,7 @@ public class BunnyMover : MonoBehaviour
         }
 
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.35f);
         fade.FadeToBlack();
         audioManager.SetVolume(-80f, "Ambience");
         audioManager.SetVolume(-80f, "Effects");
