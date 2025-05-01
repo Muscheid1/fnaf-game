@@ -24,7 +24,7 @@ public class CameraPan : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //return; //for debugging
+        //return;
         if (!gameOver && bunnyState.bunnyOverLeft)
         {
             StartCoroutine(BunnyOver(320f));
