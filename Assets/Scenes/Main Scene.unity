@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
+  - clip: {fileID: 8300000, guid: d47bfd48a71555e4380bba1475fc543a, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -3653,7 +3653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
+  - clip: {fileID: 8300000, guid: d47bfd48a71555e4380bba1475fc543a, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -4897,7 +4897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - clip: {fileID: 8300000, guid: 02af46041e9f0664f8eb38b573cb95ec, type: 3}
-    volume: 0.6
+    volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0
@@ -9892,7 +9892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
+  - clip: {fileID: 8300000, guid: d47bfd48a71555e4380bba1475fc543a, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -11921,7 +11921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 52e99646d0f7e0c4a8e296688d5e5727, type: 3}
+  - clip: {fileID: 8300000, guid: d47bfd48a71555e4380bba1475fc543a, type: 3}
     volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 1
@@ -12893,7 +12893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - clip: {fileID: 8300000, guid: 484194a44ba0ee84d8645d745f0551db, type: 3}
-    volume: 0.45
+    volume: 1
     mixerGroup: {fileID: -4736795577082322322, guid: a35323cbd34d0fb4f99d2e8b6fefb5a0, type: 2}
     spatialBlend: 0
     loop: 0

@@ -17,6 +17,6 @@ public class Usage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        display.text = (12 + (flipState.open ? 20  : 0) + (!doorState1.open ? 25 : 0) + (!doorState2.open ? 25 : 0)).ToString();
+        display.text = (10 + (flipState.open ? 20  : 0) + (!doorState1.open ? 25 : 0) + (!doorState2.open ? 25 : 0)).ToString();
     }
 }

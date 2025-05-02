@@ -1,27 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Twister : MonoBehaviour
 {
-    float timer = 0f;
+    private Quaternion baseRotation;
+    private float timer;
 
-    float startZ;
+    private float twistAmplitude = 5f; // degrees
+    private float twistSpeed = 1f;     // radians/sec
+
     private void Start()
     {
-        startZ = transform.localRotation.z;
+        baseRotation = transform.localRotation;
     }
-    // Update is called once per frame
+
     void Update()
     {
         timer += Time.deltaTime;
 
-        Vector3 angles = transform.localEulerAngles;
-        float x = angles.x;
-        float y = angles.y + 0.02f * Mathf.Sin(2 * timer);
-        float z = angles.z + 0.02f * Mathf.Sin(2 * timer);
+        // Compute oscillating rotation around Y and Z
+        float angleOffset = twistAmplitude * Mathf.Sin(twistSpeed * timer);
+        Quaternion twistY = Quaternion.Euler(0, angleOffset, 0);
+        Quaternion twistZ = Quaternion.Euler(0, 0, angleOffset);
 
-        Quaternion newRotation = Quaternion.Euler(x, y, z);
-        transform.localRotation = newRotation;
+        transform.localRotation = baseRotation * twistY * twistZ;
     }
 }
