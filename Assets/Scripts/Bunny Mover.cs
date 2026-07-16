@@ -36,12 +36,48 @@ public class BunnyMover : MonoBehaviour
     MultiChannelAudio teapotAudio;
     private Power powerState;
 
+    private GameObject bunnyDoorNoise;
+    private bool bunnyAtDoor = false;
+    private GameObject teapotDoorNoise;
+    private bool teapotAtDoor = false;
+
+    private Fade fade;
+
+    public GameObject leftDoorState;
+    public GameObject rightDoorState;
+    public GameObject toggleDoorState;
+
+    public AudioManager audioManager;
+
+    private bool powerDifficultySet = false;
+
+    MultiChannelAudio headAudio;
+
+    [System.Serializable]
+    public class JumpscareMoment
+    {
+        public Transform transform;
+        public float time;
+    }
+
+    public JumpscareMoment[] jumpscareMomentsBunnyLeft;
+    public JumpscareMoment[] jumpscareMomentsBunnyRight;
+    public JumpscareMoment[] jumpscareMomentsTeapotLeft;
+    public JumpscareMoment[] jumpscareMomentsTeapotRight;
+
+    public GameObject[] powerDeathLights;
+
+    public GameObject[] doorSlams;
+
     void Start()
     {
+        fade = GameObject.Find("DeathImage").GetComponent<Fade>();
+
         powerState = GameObject.Find("power-display").GetComponent<Power>();
 
         bunnyAudio = GetComponent<MultiChannelAudio>();
         teapotAudio = GameObject.Find("teapot").GetComponent<MultiChannelAudio>();
+        headAudio =  GameObject.Find("HeadAudio").GetComponent<MultiChannelAudio>();
 
         cameras = Resources.LoadAll<Material>("Materials");
 
@@ -139,7 +175,7 @@ public class BunnyMover : MonoBehaviour
         //Index 7
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[7];
+        room.teapotTransform = teapotTransforms[5];
         room.teapotAdjacentRooms.Add(9);
 
         room.prevCam = 4;
@@ -151,7 +187,7 @@ public class BunnyMover : MonoBehaviour
         //Index 8
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[8];
+        room.teapotTransform = teapotTransforms[6];
         room.teapotAdjacentRooms.Add(10);
 
         room.prevCam = 7;
@@ -163,7 +199,7 @@ public class BunnyMover : MonoBehaviour
         //Index 9
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[9];
+        room.teapotTransform = teapotTransforms[7];
         room.teapotAdjacentRooms.Add(11);
 
         room.prevCam = 8;
@@ -175,7 +211,7 @@ public class BunnyMover : MonoBehaviour
         //Index 10
         room = new Room();
 
-        room.teapotTransform = teapotTransforms[10];
+        room.teapotTransform = teapotTransforms[8];
         room.teapotAdjacentRooms.Add(12);
 
         room.prevCam = 9;
@@ -186,13 +222,13 @@ public class BunnyMover : MonoBehaviour
 
         //Index 11
         room = new Room();
-        room.teapotTransform = teapotTransforms[11];
+        room.teapotTransform = teapotTransforms[9];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
 
         //Index 12
         room = new Room();
-        room.teapotTransform = teapotTransforms[12];
+        room.teapotTransform = teapotTransforms[10];
         room.teapotAdjacentRooms.Add(0);
         rooms.Add(room);
     }
@@ -210,6 +246,11 @@ public class BunnyMover : MonoBehaviour
 
     void Update()
     {
+        if (clock.victory) //No deaths after win
+        {
+            return;
+        }
+
         if (!powerState.powerOff)
         {
             bunnyMoveCheck = GameDifficulty.bunnyMoveCheck[(PlayerPrefs.GetInt("Night") - 1) * 3 + clock.index / 2];
@@ -219,107 +260,188 @@ public class BunnyMover : MonoBehaviour
         }
         else
         {
-            bunnyMoveCheck = 5f;
-            bunnyMoveChance = 80;
-            teapotMoveCheck = 5f;
-            teapotMoveChance = 80;
+            if (!powerDifficultySet)
+            {
+                powerDifficultySet = true;
+                StartCoroutine(PowerDifficulty());
+            }
         }
 
 
         //Bunny
         bunnyTimer += Time.deltaTime;
-        if (bunnyTimer > bunnyMoveCheck && !gameOver)
+        if ((bunnyTimer > bunnyMoveCheck || (bunnyTimer > 4f && (bunnyIndex == 5 || bunnyIndex == 6))) && !gameOver)
         {
             int adjacentRoomIndex = rooms[bunnyIndex].bunnyAdjacentRooms[UnityEngine.Random.Range(0, rooms[bunnyIndex].bunnyAdjacentRooms.Count)];
-            if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance)
+            if (UnityEngine.Random.Range(0, 100) < bunnyMoveChance || (bunnyIndex == 5 || bunnyIndex == 6))
             {
                 transform.position = rooms[adjacentRoomIndex].bunnyTransform.position;
                 transform.rotation = rooms[adjacentRoomIndex].bunnyTransform.rotation;
                 bunnyIndex = adjacentRoomIndex;
+                if (bunnyIndex != 5 && bunnyIndex != 6)
+                {
+                    headAudio.PlaySound(1);
+                }
             }
             bunnyTimer = 0f;
+        }
+        if ((bunnyIndex == 5 || bunnyIndex == 6) && !bunnyAtDoor) //Sound of bunny at door
+        {
+            if (!(leftDoorState.GetComponent<Door>().open && bunnyIndex == 5) && !(rightDoorState.GetComponent<Door>().open && bunnyIndex == 6))
+            {
+                if (bunnyIndex == 5)
+                {
+                    bunnyDoorNoise = doorSlams[0].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+                else
+                {
+                    bunnyDoorNoise = doorSlams[1].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+            }
+            bunnyAtDoor = true;
+        }
+        if (bunnyIndex != 5 && bunnyIndex != 6 && bunnyAtDoor) //Bunny leaves doors
+        {
+            Destroy(bunnyDoorNoise);
+            bunnyAtDoor = false;
         }
 
         //Teapot
         teapotTimer += Time.deltaTime;
-        if (teapotTimer > teapotMoveCheck && !gameOver)
+        if ((teapotTimer > teapotMoveCheck || (teapotTimer > 4f && (teapotIndex == 11 || teapotIndex == 12))) && !gameOver)
         {
             int adjacentRoomIndex = rooms[teapotIndex].teapotAdjacentRooms[UnityEngine.Random.Range(0, rooms[teapotIndex].teapotAdjacentRooms.Count)];
-            if (UnityEngine.Random.Range(0, 100) < teapotMoveChance)
+            if (UnityEngine.Random.Range(0, 100) < teapotMoveChance || (teapotIndex == 11 || teapotIndex == 12))
             {
                 teapot.transform.position = rooms[adjacentRoomIndex].teapotTransform.position;
                 teapot.transform.rotation = rooms[adjacentRoomIndex].teapotTransform.rotation;
                 teapotIndex = adjacentRoomIndex;
+                if (teapotIndex != 11 && teapotIndex != 12)
+                {
+                    headAudio.PlaySound(2);
+                }
             }
             teapotTimer = 0f;
         }
+        if ((teapotIndex == 11 || teapotIndex == 12) && !teapotAtDoor) //Sound of teapot at door
+        {
+            if (!(toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 12) && !(!toggleDoorState.GetComponent<TogglerDoor>().open && teapotIndex == 11))
+            {
+                if (teapotIndex == 12)
+                {
+                    teapotDoorNoise = doorSlams[2].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+                else
+                {
+                    teapotDoorNoise = doorSlams[3].GetComponent<MultiChannelAudio>().PlaySound(0);
+                }
+            }
+            teapotAtDoor = true;
+        }
+        if (teapotIndex != 11 && teapotIndex != 12 && teapotAtDoor) //Teapot leaves doors
+        {
+            Destroy(teapotDoorNoise);
+            teapotAtDoor = false;
+        }
     }
+
 
 
     public IEnumerator GameOverBunny()
     {
         gameOver = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         bunnyAudio.PlaySound(0);
         if (bunnyIndex == 5) //Left door
         {
-            bunnyOverLeft = true;
-            //transform.position = new Vector3(-10.89f, 2.33f, 9.02f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            if (powerState.powerOff)
             {
-                jumpScareTimer -= Time.deltaTime;
-                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime); //7.15f
-                yield return null;
+                powerDeathLights[0].SetActive(true);
             }
+            bunnyOverLeft = true;
         }
         else //Right door
         {
-            bunnyOverRight = true;
-            //transform.position = new Vector3(10.89f, 2.33f, 9.02f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            if (powerState.powerOff)
             {
-                jumpScareTimer -= Time.deltaTime;
-                transform.Translate(Vector3.back * (7.15f / 0.5f) * Time.deltaTime);
+                powerDeathLights[1].SetActive(true);
+            }
+            bunnyOverRight = true;
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < jumpscareMomentsBunnyLeft[i + 1].time)
+            {
+                jumpScareTimer += Time.deltaTime;
+                float t = jumpScareTimer / jumpscareMomentsBunnyLeft[i + 1].time;
+                transform.position = bunnyOverLeft ? Vector3.Lerp(jumpscareMomentsBunnyLeft[i].transform.position, jumpscareMomentsBunnyLeft[i+1].transform.position, t) : Vector3.Lerp(jumpscareMomentsBunnyRight[i].transform.position, jumpscareMomentsBunnyRight[i+1].transform.position, t);
+                transform.rotation = bunnyOverLeft ? Quaternion.Lerp(jumpscareMomentsBunnyLeft[i].transform.rotation, jumpscareMomentsBunnyLeft[i+1].transform.rotation, t) : Quaternion.Lerp(jumpscareMomentsBunnyRight[i].transform.rotation, jumpscareMomentsBunnyRight[i+1].transform.rotation, t);
                 yield return null;
             }
         }
-        yield return new WaitForSeconds(1f);
+
+        yield return new WaitForSeconds(0.3f);
+        fade.FadeToBlack();
+        audioManager.SetVolume(-80f, "Ambience");
+        audioManager.SetVolume(-80f, "Effects");
+        headAudio.PlaySound(0);
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
     }
 
     public IEnumerator GameOverTeapot()
     {
         gameOver = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         teapotAudio.PlaySound(0);
         if (teapotIndex == 12) //Left door
         {
-            teapotOverLeft = true;
-            //teapot.transform.position = new Vector3(6.46f, 3.06f, -19.38f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            if (powerState.powerOff)
             {
-                jumpScareTimer -= Time.deltaTime;
-                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime); //7.15f
-                yield return null;
+                powerDeathLights[2].SetActive(true);
             }
+            teapotOverLeft = true;
         }
         else //Right door
         {
-            teapotOverRight = true;
-            //teapot.transform.position = new Vector3(-3.86f, 3.06f, -19.38f);
-            float jumpScareTimer = 0.5f;
-            while (jumpScareTimer > 0f)
+            if (powerState.powerOff)
             {
-                jumpScareTimer -= Time.deltaTime;
-                teapot.transform.Translate(Vector3.forward * (7.15f / 0.5f) * Time.deltaTime);
+                powerDeathLights[3].SetActive(true);
+            }
+            teapotOverRight = true;
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            float jumpScareTimer = 0f;
+            while (jumpScareTimer < jumpscareMomentsTeapotLeft[i + 1].time)
+            {
+                jumpScareTimer += Time.deltaTime;
+                float t = jumpScareTimer / jumpscareMomentsTeapotLeft[i + 1].time;
+                teapot.transform.position = teapotOverLeft ? Vector3.Lerp(jumpscareMomentsTeapotLeft[i].transform.position, jumpscareMomentsTeapotLeft[i + 1].transform.position, t) : Vector3.Lerp(jumpscareMomentsTeapotRight[i].transform.position, jumpscareMomentsTeapotRight[i + 1].transform.position, t);
+                teapot.transform.rotation = teapotOverLeft ? Quaternion.Lerp(jumpscareMomentsTeapotLeft[i].transform.rotation, jumpscareMomentsTeapotLeft[i + 1].transform.rotation, t) : Quaternion.Lerp(jumpscareMomentsTeapotRight[i].transform.rotation, jumpscareMomentsTeapotRight[i + 1].transform.rotation, t);
                 yield return null;
             }
         }
-        yield return new WaitForSeconds(1f);
+
+
+        yield return new WaitForSeconds(0.3f);
+        fade.FadeToBlack();
+        audioManager.SetVolume(-80f, "Ambience");
+        audioManager.SetVolume(-80f, "Effects");
+        headAudio.PlaySound(0);
+        yield return new WaitForSeconds(2.5f);
         SceneManager.LoadScene("Title Screen");
+    }
+
+
+    private IEnumerator PowerDifficulty()
+    {
+        yield return new WaitForSeconds(6f);
+        bunnyMoveCheck = 5f;
+        bunnyMoveChance = 70;
+        teapotMoveCheck = 4f;
+        teapotMoveChance = 80;
     }
 }
 

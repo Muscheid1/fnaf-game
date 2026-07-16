@@ -10,7 +10,12 @@ public class LaptopFlip : MonoBehaviour
 
     public bool open = false;
 
+    public bool clicked = true;
+
     private bool closedSound = true;
+    private bool openedSound = false;
+    GameObject openedSoundObj;
+    public Power power;
 
     MultiChannelAudio multiChannelAudio;
     // Start is called before the first frame update
@@ -18,19 +23,31 @@ public class LaptopFlip : MonoBehaviour
     {
         hingePoint = GameObject.Find("hinge").GetComponent<Transform>().position;
         multiChannelAudio = GetComponent<MultiChannelAudio>();
+        transform.RotateAround(hingePoint, rotationAxis, -88.70456f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (open)
+        if (open) //Opening
         {
+            if (!openedSound && !power.powerOff)
+            {
+                openedSoundObj = multiChannelAudio.PlaySound(2);
+                openedSound = true;
+            }
+            if (power.powerOff && openedSoundObj != null)
+            {
+                Destroy(openedSoundObj);
+            }
+
+            clicked = false;
             closedSound = false;
             if (GetComponent<Transform>().localRotation.x > -0.1f)
             {
                 transform.RotateAround(hingePoint, rotationAxis, rotationSpeed * Time.deltaTime);
             }
-            else
+            else //Fully open
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -38,18 +55,21 @@ public class LaptopFlip : MonoBehaviour
                 }
             }
         }
-        else
+        else //Closing
         {
             if (GetComponent<Transform>().localRotation.x < 0.6980147f) //0.7040147f
             {
                 transform.RotateAround(hingePoint, rotationAxis, -rotationSpeed * Time.deltaTime);
             }
-            else
+            else //Fully closed
             {
+                clicked = true;
                 if (!closedSound)
                 {
+                    Destroy(openedSoundObj);
                     multiChannelAudio.PlaySound(0);
                     closedSound = true;
+                    openedSound = false;
                 }
                 if (Input.GetKeyDown(KeyCode.W))
                 {

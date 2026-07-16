@@ -24,11 +24,18 @@ public class CameraSwitch : MonoBehaviour
     private int prevTeapotIndex;
     private Coroutine colorBarCoroutine;
     private bool colorBar = false;
+    private GameObject colorBarSound;
 
     private GameObject cameraNumber;
+
+    public GameObject[] cameras;
+    private int activeCamera = 0;
+
+    private float downTime; 
     // Start is called before the first frame update
     void Start()
     {
+        downTime = 0f;
         multiChannelAudio = GetComponent<MultiChannelAudio>();
         flipState = GameObject.Find("laptop-display").GetComponent<LaptopFlip>();
         powerState = GameObject.Find("power-display").GetComponent<Power>();
@@ -45,6 +52,7 @@ public class CameraSwitch : MonoBehaviour
             if (!turnedOff)
             {
                 turnedOff = true;
+                cameraNumber.SetActive(false);
                 this.GetComponent<Renderer>().material = blackMaterial;
             }
             return;
@@ -62,17 +70,19 @@ public class CameraSwitch : MonoBehaviour
                 return;
             }
 
-            if (prevBunnyIndex != bunnyState.bunnyIndex && (index == prevBunnyIndex || index == bunnyState.bunnyIndex) && !colorBar) //If bunny left or entered camera you're watching
+            if (prevBunnyIndex != bunnyState.bunnyIndex && (index == prevBunnyIndex || index == bunnyState.bunnyIndex) && !colorBar && downTime < 1f) //If bunny left or entered camera you're watching
             {
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
 
-            if (prevTeapotIndex != bunnyState.teapotIndex && (index == prevTeapotIndex || index == bunnyState.teapotIndex) && !colorBar) //If bunny left or entered camera you're watching
+            if (prevTeapotIndex != bunnyState.teapotIndex && (index == prevTeapotIndex || index == bunnyState.teapotIndex) && !colorBar && downTime < 1f) //If teapot left or entered camera you're watching
             {
                 colorBar = true;
                 colorBarCoroutine = StartCoroutine(ColorBarScreen());
             }
+
+            downTime = 0f;
 
             prevBunnyIndex = bunnyState.bunnyIndex;
             prevTeapotIndex = bunnyState.teapotIndex;
@@ -81,27 +91,37 @@ public class CameraSwitch : MonoBehaviour
             {
                 index = bunnyState.rooms[index].nextCam;
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
-                if (!colorBar)
-                {
-                    this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
-                }
+                SetCameraNext();
                 multiChannelAudio.PlaySound(0);
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
                 index = bunnyState.rooms[index].prevCam;
                 cameraNumber.GetComponent<TextMeshPro>().text = "CAM_0" + bunnyState.rooms[index].camNumber;
-                if (!colorBar)
-                {
-                    this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
-                }
+                SetCameraPrev();
                 multiChannelAudio.PlaySound(0);
             }
         }
         else //Laptop closed
         {
+            downTime += Time.deltaTime;
             launched = false;
             booted = false;
+        }
+
+        if (bunnyState.gameOver) //No color bar on game over
+        {
+            if (colorBarCoroutine != null)
+            {
+                StopCoroutine(colorBarCoroutine);
+                Destroy(colorBarSound);
+                SetCamera();
+                colorBar = false;
+            }
+        }
+
+        if (flipState.clicked)
+        {
             if (blueCoroutine != null)
             {
                 StopCoroutine(blueCoroutine);
@@ -109,6 +129,7 @@ public class CameraSwitch : MonoBehaviour
             if (colorBarCoroutine != null)
             {
                 StopCoroutine(colorBarCoroutine);
+                Destroy(colorBarSound);
                 colorBar = false;
             }
         }
@@ -121,7 +142,7 @@ public class CameraSwitch : MonoBehaviour
         yield return new WaitForSeconds(3f);
         if (!powerState.powerOff)
         {
-            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+            SetCamera();
             cameraNumber.SetActive(true);
         }
         booted = true;
@@ -130,12 +151,47 @@ public class CameraSwitch : MonoBehaviour
     IEnumerator ColorBarScreen()
     {
         this.GetComponent<Renderer>().material = colorMaterial;
-        multiChannelAudio.PlaySound(1);
+        colorBarSound = multiChannelAudio.PlaySound(1);
         yield return new WaitForSeconds(2f);
         if (!powerState.powerOff)
         {
-            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+            SetCamera();
         }
         colorBar = false;
+    }
+
+    private void SetCamera()
+    {
+        this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+    }
+
+    private void SetCameraNext()
+    {
+        cameras[activeCamera].SetActive(false);
+        activeCamera++;
+        if (activeCamera == 9)
+        {
+            activeCamera = 0;
+        }
+        cameras[activeCamera].SetActive(true);
+        if (!colorBar)
+        {
+            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        }
+    }
+
+    private void SetCameraPrev()
+    {
+        cameras[activeCamera].SetActive(false);
+        activeCamera--;
+        if (activeCamera == -1)
+        {
+            activeCamera = 8;
+        }
+        cameras[activeCamera].SetActive(true);
+        if (!colorBar)
+        {
+            this.GetComponent<Renderer>().material = bunnyState.rooms[index].camera;
+        }
     }
 }

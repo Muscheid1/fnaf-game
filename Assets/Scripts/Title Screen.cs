@@ -1,32 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class TitleScreen : MonoBehaviour
 {
     private TextMeshPro textDisplay;
-    // Start is called before the first frame update
+    public GameObject nightText;
+    public bool started = false;
+    public AudioManager audioManager;
+    public GameObject star;
+
     void Start()
     {
-        textDisplay = GetComponent<TextMeshPro>();
+        //Night text
+        textDisplay = nightText.GetComponent<TextMeshPro>();
         if (!PlayerPrefs.HasKey("Night"))
         {
             PlayerPrefs.SetInt("Night", 1);
         }
-
         textDisplay.text = "Night " + PlayerPrefs.GetInt("Night");
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        //Completion star
+        if (!PlayerPrefs.HasKey("Star"))
+        {
+            PlayerPrefs.SetInt("Star", 0);
+        }
+        if (PlayerPrefs.GetInt("Star") == 1)
+        {
+            star.SetActive(true);
+        }
 
-    void OnMouseDown()
-    {
-        SceneManager.LoadScene("Main Scene");
+        //Volume
+        audioManager.SetVolume(2f, "Music");
+        audioManager.SetVolume(0f, "Effects");
     }
 }
